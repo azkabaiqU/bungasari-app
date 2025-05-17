@@ -1,13 +1,5 @@
 import 'package:flutter/material.dart';
-import 'preference/preference.dart';
-
-// import 'presentation/home/page/home_page.dart';
-import 'presentation/form_page.dart';
-// import 'presentation/profile_page.dart';
-// import 'presentation/ujicoba.dart';
-// import 'presentation/ujicoba2.dart';
-
-// import 'widgets/navbar.dart';
+import 'presentation/auth/login_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,10 +15,13 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        scaffoldBackgroundColor: AppColor.bgWhite,
+        // scaffoldBackgroundColor: Colors.amber,
         useMaterial3: true,
       ),
-      home: FormPage(),
+      home: LoginPage(),
     );
   }
 }
+
+//bottomNavigationBar: CustomTabBar(),
+//CustomTabBar(),

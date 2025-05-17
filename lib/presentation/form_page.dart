@@ -4,6 +4,8 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:bungasari_app/presentation/profile_page.dart';
+import '../styles/text_style.dart';
+import '../widgets/buttons/input_widget.dart';
 
 import '../presentation/home/page/home_page.dart';
 
@@ -11,22 +13,6 @@ class FormPage extends StatefulWidget {
   @override
   _FormPageState createState() => _FormPageState();
 }
-
-// Imput Button ========== ->
-final OutlineInputBorder inputBorderStyle = OutlineInputBorder(
-  borderRadius: BorderRadius.circular(7),
-  borderSide: BorderSide(color: AppColor.textGrayV2, width: 0.5),
-);
-
-final OutlineInputBorder focusedBorderStyle = OutlineInputBorder(
-  borderRadius: BorderRadius.circular(7),
-  borderSide: BorderSide(color: AppColor.textGrayV1, width: 1),
-);
-
-final OutlineInputBorder errorBorderStyle = OutlineInputBorder(
-  borderRadius: BorderRadius.circular(7),
-  borderSide: BorderSide(color: Colors.red, width: 2),
-);
 
 class _FormPageState extends State<FormPage> {
   final PageController _pageController = PageController();
@@ -69,10 +55,7 @@ class _FormPageState extends State<FormPage> {
             top: 15,
             child: GestureDetector(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomePage()),
-                );
+                  Navigator.pop(context);
               },
               child: Row(
                 children: [
@@ -210,11 +193,8 @@ class PartOne extends StatelessWidget {
             TextField(
               decoration: InputDecoration(
                 hintText: "Nama Perusahaan anda",
-                hintStyle: TextStyle(
-                  fontFamily: 'SfPro', // Pastikan sudah terdaftar di pubspec.yaml
-                  fontSize: 17,
-                  color: AppColor.textGrayV2, // Warna placeholder
-                ),
+                hintStyle: AppTextStyles.TextfrHint,
+
                 border: OutlineInputBorder(),
                 enabledBorder: inputBorderStyle,
                 focusedBorder: focusedBorderStyle,
@@ -237,11 +217,8 @@ class PartOne extends StatelessWidget {
             TextField(
               decoration: InputDecoration(
                 hintText: "Jl. Contoh No. 123, Kota, Provinsi",
-                hintStyle: TextStyle(
-                  fontFamily: 'SfPro', // Pastikan sudah terdaftar di pubspec.yaml
-                  fontSize: 17,
-                  color: AppColor.textGrayV2, // Warna placeholder
-                ),
+                hintStyle: AppTextStyles.TextfrHint,
+
                 border: OutlineInputBorder(),
                 enabledBorder: inputBorderStyle,
                 focusedBorder: focusedBorderStyle,
@@ -264,11 +241,8 @@ class PartOne extends StatelessWidget {
             TextField(
               decoration: InputDecoration(
                 hintText: "example@gmail.com",
-                hintStyle: TextStyle(
-                  fontFamily: 'SfPro', // Pastikan sudah terdaftar di pubspec.yaml
-                  fontSize: 17,
-                  color: AppColor.textGrayV2, // Warna placeholder
-                ),
+                hintStyle: AppTextStyles.TextfrHint,
+
                 border: OutlineInputBorder(),
                 enabledBorder: inputBorderStyle,
                 focusedBorder: focusedBorderStyle,
@@ -290,7 +264,7 @@ class PartOne extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    // Tambahkan padding di sini, bukan di ElevatedButton
+
                     padding: EdgeInsets.only(right: 10),
                     child: SizedBox(
                       width: 16,
@@ -301,7 +275,7 @@ class PartOne extends StatelessWidget {
                           backgroundColor: Colors.transparent,
                           shadowColor: Colors.transparent,
                           elevation: 0,
-                          padding: EdgeInsets.zero, // Hapus padding di sini
+                          padding: EdgeInsets.zero,
                         ),
                         child: Image.asset(
                           'assets/image/tandaseru_icon.png',
@@ -315,11 +289,7 @@ class PartOne extends StatelessWidget {
                   Expanded(
                     child: Text(
                       'Pastikan email Anda aktif dan dapat diakses. Semua notifikasi dan konfirmasi akan dikirim ke email ini.',
-                      style: TextStyle(
-                        fontFamily: "SfPro",
-                        fontSize: 14,
-                        color: AppColor.textFrOrange,
-                      ),
+                        style: AppTextStyles.TextfrAttention
                     ),
                   ),
                 ],
@@ -341,11 +311,8 @@ class PartOne extends StatelessWidget {
               keyboardType: TextInputType.phone,
               decoration: InputDecoration(
                 hintText: "08XX-XXXX-XXXX",
-                hintStyle: TextStyle(
-                  fontFamily: 'SfPro', // Pastikan sudah terdaftar di pubspec.yaml
-                  fontSize: 17,
-                  color: AppColor.textGrayV2, // Warna placeholder
-                ),
+                hintStyle: AppTextStyles.TextfrHint,
+
                 border: OutlineInputBorder(),
                 enabledBorder: inputBorderStyle,
                 focusedBorder: focusedBorderStyle,
@@ -358,11 +325,10 @@ class PartOne extends StatelessWidget {
             Container(
               width: double.infinity,
               alignment: AlignmentDirectional.centerEnd,
-              // Untuk geser ke kanan (ubah ke centerStart untuk ke kiri)
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   elevation: 0,
-                  backgroundColor: Colors.black, // Warna background hitam
+                  backgroundColor: Colors.black,
                   padding: EdgeInsets.symmetric(horizontal: 17, vertical: 7),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(7),
@@ -502,7 +468,7 @@ class _PartTwoState extends State<PartTwo> {
                               style: TextStyle(
                                 color: AppColor.bgGrayV2,
                                 fontSize: 14,
-                                fontFamily: "SfPro",
+                                fontFamily: "SfProDisplay",
                               ),
                             ),
                           ],
@@ -566,12 +532,9 @@ class _PartTwoState extends State<PartTwo> {
             TextField(
               keyboardType: TextInputType.phone,
               decoration: InputDecoration(
-                hintText: "Masukkan kategori bisnis Anda",
-                hintStyle: TextStyle(
-                  fontFamily: 'SfPro',
-                  fontSize: 17,
-                  color: AppColor.textGrayV2,
-                ),
+                hintText: "Masukan kategori bisnis Anda",
+                hintStyle: AppTextStyles.TextfrHint,
+
                 border: OutlineInputBorder(),
                 enabledBorder: inputBorderStyle,
                 focusedBorder: focusedBorderStyle,
@@ -614,12 +577,7 @@ class _PartTwoState extends State<PartTwo> {
                         enabledBorder: InputBorder.none,
                         focusedBorder: InputBorder.none,
                         hintText: "Ceritakan secara singkat tentang perusahaan Anda, produk yang Anda buat, dan pengalaman dalam industri ini.",
-                        hintStyle: TextStyle(
-                          fontFamily: "SfPro",
-                          fontSize: 16,
-                          color: AppColor.textGrayV2,
-                          fontStyle: FontStyle.italic,
-                        ),
+                        hintStyle: AppTextStyles.TextfrHint,
                       ),
                     ),
                   ),
@@ -683,68 +641,13 @@ class _PartTwoState extends State<PartTwo> {
                   Expanded(
                     child: Text(
                       'Deskripsi harus minimal 50 kata agar PT. Bunga Sari dapat memahami bisnis Anda dengan lebih baik.',
-                      style: TextStyle(
-                        fontFamily: "SfPro",
-                        fontSize: 14,
-                        color: AppColor.textFrOrange,
-                      ),
+                        style: AppTextStyles.TextfrAttention
                     ),
                   ),
                 ],
               ),
             ),
             SizedBox(height: 25),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     Container(
-            //       width: double.infinity,
-            //       alignment: AlignmentDirectional.centerEnd,
-            //       child: ElevatedButton(
-            //         style: ElevatedButton.styleFrom(
-            //           backgroundColor: Colors.black,
-            //           padding: EdgeInsets.symmetric(horizontal: 17, vertical: 7),
-            //           shape: RoundedRectangleBorder(
-            //             borderRadius: BorderRadius.circular(7),
-            //           ),
-            //         ),
-            //         onPressed: widget.onPrevious,
-            //         child: Text(
-            //           'Kembali',
-            //           style: TextStyle(
-            //             fontFamily: "SfPro",
-            //             fontWeight: FontWeight.w400,
-            //             fontSize: 14,
-            //             color: AppColor.textWhite,
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //     Container(
-            //       width: double.infinity,
-            //       alignment: AlignmentDirectional.centerEnd,
-            //       child: ElevatedButton(
-            //         style: ElevatedButton.styleFrom(
-            //           backgroundColor: Colors.black,
-            //           padding: EdgeInsets.symmetric(horizontal: 17, vertical: 7),
-            //           shape: RoundedRectangleBorder(
-            //             borderRadius: BorderRadius.circular(7),
-            //           ),
-            //         ),
-            //         onPressed: widget.onNext,
-            //         child: Text(
-            //           'Selanjutnya',
-            //           style: TextStyle(
-            //             fontFamily: "SfPro",
-            //             fontWeight: FontWeight.w400,
-            //             fontSize: 14,
-            //             color: AppColor.textWhite,
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //   ],
-            // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -796,8 +699,7 @@ class _PartTwoState extends State<PartTwo> {
               ],
 
             ),
-            SizedBox(height: 29),
-
+            SizedBox(height: 50),
           ],
         ),
         )
@@ -805,40 +707,452 @@ class _PartTwoState extends State<PartTwo> {
 
   }
 }
-
-class PartThree extends StatelessWidget {
+class PartThree extends StatefulWidget {
   final VoidCallback onNext;
   final VoidCallback onPrevious;
 
-  // const PartTwo({Key? key, required this.onNext, required this.onPrevious}) : super(key: key);
   const PartThree({Key? key, required this.onNext, required this.onPrevious}) : super(key: key);
 
+  @override
+  _PartThreeState createState() => _PartThreeState();
+}
+
+class _PartThreeState extends State<PartThree> {
+  File? _selectedImage;
+  String? _fileName;
+  final TextEditingController _controller = TextEditingController();
+  final int _maxLength = 250;
+  bool _isOverLimit = false;
+
+  String _truncateFileName(String name, int maxLength) {
+    if (name.length > maxLength) {
+      List<String> parts = name.split('.');
+      String ext = parts.length > 1 ? ".${parts.last}" : "";
+      String truncated = name.substring(0, maxLength - ext.length) + "...";
+      return truncated + ext;
+    }
+    return name;
+  }
+
+  Future<void> _pickImageFromGallery() async {
+    try {
+      final returnedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (returnedImage == null) return;
+
+      setState(() {
+        _selectedImage = File(returnedImage.path);
+        _fileName = returnedImage.name;
+      });
+    } catch (e) {
+      // Handle error jika perlu
+    }
+  }
+
+  void _onTextChanged(String value) {
+    setState(() {
+      if (value.length > _maxLength) {
+        _isOverLimit = true;
+        _controller.text = value.substring(0, _maxLength);
+        _controller.selection = TextSelection.fromPosition(
+          TextPosition(offset: _controller.text.length),
+        );
+      } else {
+        _isOverLimit = false;
+      }
+    });
+  }
+
+  void _removeImage() {
+    setState(() {
+      _selectedImage = null;
+      _fileName = null;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        width: double.infinity,
-        alignment: AlignmentDirectional.centerEnd,
-        // Untuk geser ke kanan (ubah ke centerStart untuk ke kiri)
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.black, // Warna background hitam
-            padding: EdgeInsets.symmetric(horizontal: 17, vertical: 7),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(7),
+    return Container(
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 44),
+            Text(
+              'Catatan Tambahan',
+              style: TextStyle(
+                fontFamily: "SfPro",
+                fontSize: 16,
+                color: AppColor.textGrayV1,
+              ),
             ),
-          ),
-          onPressed: onNext,
-          child: Text(
-            'Selanjutnya',
-            style: TextStyle(
-              fontFamily: "SfPro",
-              fontWeight: FontWeight.w400,
-              fontSize: 14,
-              color: AppColor.textWhite,
+            SizedBox(height: 7),
+            Container(
+              height: 206,
+              padding: EdgeInsets.all(13),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(7),
+                border: Border.all(
+                  color: _isOverLimit ? Colors.red : AppColor.textGrayV2,
+                  width: 0.5,
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _controller,
+                      maxLines: null,
+                      expands: true,
+                      textAlignVertical: TextAlignVertical.top,
+                      onChanged: _onTextChanged,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "Tulis informasi tambahan yang perlu kami ketahui tentang pengajuan Anda (opsional).",
+                        hintStyle: AppTextStyles.TextfrHint,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    "${_controller.text.length} / $_maxLength Kata",
+                    style: TextStyle(
+                      color: _isOverLimit ? Colors.red : AppColor.textGrayV2,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
+            if (_isOverLimit)
+              const Column(
+                children: [
+                  SizedBox(height: 2),
+                  Text(
+                    "Anda melewati batas kata.",
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 14,
+                      fontFamily: "SfPro",
+                    ),
+                  ),
+                ],
+              ),
+            SizedBox(height: 25),
+            Text(
+              'Lampiran Perusahaan',
+              style: TextStyle(
+                fontFamily: "SfPro",
+                fontSize: 16,
+                color: AppColor.textGrayV1,
+              ),
+            ),
+            SizedBox(height: 7),
+            Column(
+              children: [
+                if (_selectedImage == null)
+                  DottedBorder(
+                    color: Colors.black,
+                    strokeWidth: 0.5,
+                    dashPattern: [10, 10],
+                    borderType: BorderType.RRect,
+                    radius: Radius.circular(7),
+                    child : MaterialButton(
+                      onPressed: _pickImageFromGallery,
+                      padding: EdgeInsets.symmetric(horizontal: 0),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 30),
+                        alignment: Alignment.center,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: AppColor.bgGrayFrImgInpt,
+                          borderRadius: BorderRadius.all(Radius.circular(7)),
+                        ),
+                        child: Column(
+                          children: [
+                            Image.asset(
+                              'assets/image/download_icon.png',
+                              width: 32,
+                              height: 32,
+                              fit: BoxFit.contain,
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              'Upload Your\n Document Here',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: AppColor.bgGrayV2,
+                                fontSize: 14,
+                                fontFamily: "SfProDisplay",
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                if (_fileName != null)
+                  DottedBorder(
+                    color: Colors.black,
+                    strokeWidth: 0.5,
+                    dashPattern: [10, 10],
+                    borderType: BorderType.RRect,
+                    radius: Radius.circular(7),
+                    child: MaterialButton(
+                      onPressed: _pickImageFromGallery,
+                      padding: EdgeInsets.symmetric(horizontal: 0),
+                      child: Container(
+                        padding: EdgeInsets.only(
+                            top: 10, bottom: 10, right: 20, left: 20),
+                        alignment: Alignment.center,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: AppColor.bgGrayFrImgInpt,
+                          borderRadius: BorderRadius.all(Radius.circular(7)),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              _truncateFileName(_fileName!, 30),
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: AppColor.bgGrayV2,
+                                fontSize: 14,
+                                fontFamily: "SfPro",
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            GestureDetector(
+                              onTap: _removeImage,
+                              child: Icon(Icons.close, color: AppColor.textGrayV2),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+            SizedBox(height: 7),
+            Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: AppColor.bgOrange,
+                borderRadius: BorderRadius.all(Radius.circular(7)),
+              ),
+              padding: EdgeInsets.all(17),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(right: 10),
+                    child: SizedBox(
+                      width: 16,
+                      height: 16,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          shadowColor: Colors.transparent,
+                          elevation: 0,
+                          padding: EdgeInsets.zero,
+                        ),
+                        child: Image.asset(
+                          'assets/image/tandaseru_icon.png',
+                          width: 16,
+                          height: 16,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      'Anda dapat mengunggah dokumen legalitas seperti SIUP, NIB, atau TDP untuk mempercepat proses verifikasi (Opsional)."',
+                        style: AppTextStyles.TextfrAttention
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 25),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      backgroundColor: Colors.white,
+                      padding: EdgeInsets.symmetric(horizontal: 17, vertical: 7),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(7),
+                      ),
+                    ),
+                    onPressed: widget.onPrevious,
+                    child: Text(
+                      'Kembali',
+                      style: TextStyle(
+                        fontFamily: "SfPro",
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                        color: AppColor.textBlack,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 10), // Spasi antar tombol
+                Container(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      backgroundColor: Colors.black, // Warna background hitam
+                      padding: EdgeInsets.symmetric(horizontal: 17, vertical: 7),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(7),
+                      ),
+                    ),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        barrierDismissible: true, // Mengizinkan menutup dialog dengan mengetuk area di luar
+                        builder: (BuildContext context) {
+                          return KirimPopup();
+                        },
+                      );
+                      // Navigator.push(
+                      //   context,
+                      //   PageRouteBuilder(
+                      //     pageBuilder: (context, animation, secondaryAnimation) => HomePage(),
+                      //     transitionDuration: Duration.zero, // tanpa animasi
+                      //     reverseTransitionDuration: Duration.zero,
+                      //   ),
+                      // );
+                    },
+                    child: Text(
+                      'Kirim',
+                      style: TextStyle(
+                        fontFamily: "SfPro",
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: AppColor.textWhite,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+
+            ),
+            SizedBox(height: 50),
+
+
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class KirimPopup extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      insetPadding: EdgeInsets.all(20.0), // Padding 10 di setiap sisi
+      backgroundColor: AppColor.bgOrange,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: Padding(
+        padding: EdgeInsets.only(top: 20, right: 20, left: 20, bottom: 20), // Padding internal dialog
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Center(
+              child:
+              Image.asset(
+                'assets/image/tandaseru_icon.png',
+                width: 16,
+                height: 16,
+                fit: BoxFit.contain,
+              ),
+            ),
+            SizedBox(height: 10,),
+            Text(
+              'Apakah Anda yakin seluruh data yang diisi sudah benar dan sesuai?',
+              textAlign: TextAlign.justify,
+              style: TextStyle(
+                fontFamily: "SfProDisplay",
+                fontSize: 24,
+                color: AppColor.textFrOrange,
+                height: 1.2,
+              ),
+            ),
+            Text(
+              'Anda memiliki maksimal 3 kesempatan pengisian data dalam sebulan. Pastikan data yang Anda isi sudah benar sebelum dikirim.',
+              textAlign: TextAlign.justify,
+              style: TextStyle(
+                fontFamily: "SfPro",
+                fontSize: 14,
+                color: AppColor.textFrOrange,
+              ),
+            ),
+            SizedBox(height: 27),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      backgroundColor: AppColor.bgOrange,
+                      padding: EdgeInsets.symmetric(horizontal: 37, vertical: 17),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(7),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      'Kembali',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                        color: AppColor.textBlack,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 10), // Spasi antar tombol
+                Container(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      backgroundColor: Colors.black, // Warna background hitam
+                      padding: EdgeInsets.symmetric(horizontal: 37, vertical: 17),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(7),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      'Lanjutkan',
+                      style: TextStyle(
+                        fontFamily: "SfPro",
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: AppColor.textWhite,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

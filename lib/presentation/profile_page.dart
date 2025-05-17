@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:bungasari_app/preference/preference.dart';
+import '../styles/text_style.dart';
+import 'form_page.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -8,7 +10,8 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.bgBasic,
-      body: Padding(
+      body: SingleChildScrollView(
+        child: Padding(
         padding: EdgeInsets.all(20), // Tambahkan kurung kurawal setelah Padding
         child: Column(
           children: [
@@ -29,20 +32,11 @@ class ProfilePage extends StatelessWidget {
                 children: [
                   Text(
                     'PT. Akapack Group',
-                    style: TextStyle(
-                      fontFamily: "SfPro",
-                      // fontWeight: FontWeight.w500,
-                      fontSize: 16,
-                      color: AppColor.textBlack,
-                    ),
+                    style: AppTextStyles.TitlefrFinalData,
                   ),
                   Text(
-                    'Packaging Sales',
-                    style: TextStyle(
-                      fontFamily: "SfPro",
-                      fontSize: 14,
-                      color: AppColor.textGrayV1,
-                    ),
+                      'Packaging Sales',
+                      style: AppTextStyles.DescfrFinalData
                   )
                 ],
               ),
@@ -65,19 +59,11 @@ class ProfilePage extends StatelessWidget {
                 children: [
                   Text(
                     'Detail Pengajuan Anda',
-                    style: TextStyle(
-                      fontFamily: "SfProDisplay",
-                      fontSize: 24,
-                      color: AppColor.textBlack,
-                    ),
+                      style: AppTextStyles.TitlefrBigTitle
                   ),
                   Text(
-                    'Informasi yang telah anda kirim di Submit Collabration namun tidak semua kami tampilkan',
-                    style: TextStyle(
-                      fontFamily: "SfPro",
-                      fontSize: 14,
-                      color: AppColor.textGrayV1,
-                    ),
+                      'Informasi yang telah anda kirim di Submit Collabration namun tidak semua kami tampilkan',
+                      style: AppTextStyles.DescfrFinalData
                   ),
                   SizedBox(height: 19),
                   // height: MediaQuery.of(context).size.height * 0.05,
@@ -88,6 +74,84 @@ class ProfilePage extends StatelessWidget {
                   ),
                   SizedBox(height: 19),
                   // isi dari Detail Pengajuan ---- * ----
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Nama Perusahaan', style: AppTextStyles.TitlefrFinalData ,),
+                      Text('PT. Akapack Group', style: AppTextStyles.DescfrFinalData ,),
+                      SizedBox(height: 15,),
+                      Text('Alamat Perusahaan', style: AppTextStyles.TitlefrFinalData ,),
+                      Text('Jl. Kiara Condong 12312', style: AppTextStyles.DescfrFinalData ,),
+                      SizedBox(height: 15,),
+                      Text('Email Perusahaan', style: AppTextStyles.TitlefrFinalData ,),
+                      Text('Akapack@gmail.com', style: AppTextStyles.DescfrFinalData ,),
+                      SizedBox(height: 15,),
+                      Text('Nomer Telepone', style: AppTextStyles.TitlefrFinalData ,),
+                      Text('0800808080808', style: AppTextStyles.DescfrFinalData ,),
+                      SizedBox(height: 15,),
+                      Text('Logo Perusahaan Anda', style: AppTextStyles.TitlefrFinalData ,),
+                      SizedBox(height: 5,),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: AppColor.bgBasic, // Masukkan ke dalam BoxDecoration
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                        padding: EdgeInsets.symmetric(vertical: 9, horizontal: 15),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.broken_image),
+                            SizedBox(width: 5),
+                            Text(
+                              'logo-anda.png',
+                              style: TextStyle(
+                                fontFamily: "SfPro",
+                                fontSize: 14,
+                                color: AppColor.textBlack,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 15,),
+                      Text('Jenis Usaha', style: AppTextStyles.TitlefrFinalData ,),
+                      Text('Pakaging', style: AppTextStyles.DescfrFinalData ,),
+                      SizedBox(height: 15,),
+                      Text('Deskripsi Singkat Perusahaan', style: AppTextStyles.TitlefrFinalData ,),
+                      Text('AWe are PT. Akapack Artisan in Bandung which has been producing packaging since 2000.', style: AppTextStyles.DescfrFinalData ,),
+                      SizedBox(height: 15,),
+                      Text('Catatan Tambahan', style: AppTextStyles.TitlefrFinalData ,),
+                      Text('AWe are PT. Akapack Artisan in Bandung which has been producing packaging since 2000.AWe are PT. Akapack Artisan in Bandung which has been producing packaging since 2000.AWe are PT. Akapack Artisan in Bandung which has been producing packaging since 2000.AWe are PT. Akapack Artisan in Bandung which has been producing packaging since 2000.AWe are PT. Akapack Artisan in Bandung which has been producing packaging since 2000.', style: AppTextStyles.DescfrFinalData ,),
+                      SizedBox(height: 15,),
+                      Text('Lampiran (Opsional)', style: AppTextStyles.TitlefrFinalData ,),
+                      SizedBox(height: 5,),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: AppColor.bgBasic, // Masukkan ke dalam BoxDecoration
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                        padding: EdgeInsets.symmetric(vertical: 9, horizontal: 15),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.broken_image),
+                            SizedBox(width: 5),
+                            Text(
+                              'LampiranRahasiaNegara.pdf',
+                              style: TextStyle(
+                                fontFamily: "SfPro",
+                                fontSize: 14,
+                                color: AppColor.textBlack,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 15,),
+                    ],
+                  ),
                   Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
@@ -111,7 +175,7 @@ class ProfilePage extends StatelessWidget {
                                 shadowColor: Colors.transparent,
                                 elevation: 0,
                                 padding:
-                                    EdgeInsets.zero, // Hapus padding di sini
+                                EdgeInsets.zero, // Hapus padding di sini
                               ),
                               child: Image.asset(
                                 'assets/image/tandaseru_icon.png',
@@ -125,11 +189,7 @@ class ProfilePage extends StatelessWidget {
                         Expanded(
                           child: Text(
                             'Anda hanya dapat mengirim ulang pengajuan maksimal 3 kali dalam sebulan. Pastikan semua data sudah benar sebelum mengirim ulang.',
-                            style: TextStyle(
-                              fontFamily: "SfPro",
-                              fontSize: 14,
-                              color: AppColor.textFrOrange,
-                            ),
+                              style: AppTextStyles.TextfrAttention
                           ),
                         ),
                       ],
@@ -140,20 +200,31 @@ class ProfilePage extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.black, // Warna background hitam
                         padding:
-                            EdgeInsets.symmetric(horizontal: 17, vertical: 7),
+                        EdgeInsets.symmetric(horizontal: 17, vertical: 7),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(7))),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => FormPage()),
+                      ); },
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
+                        Icon(
+                          Icons.markunread_mailbox_outlined,
+                          color: AppColor.bgBasic,
+                          size: 14,
+                        ),
+                        SizedBox(width: 4,),
                         Text(
                           'Ajukan!',
                           style: TextStyle(
-                              fontFamily: "SfPro",
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                              color: AppColor.textWhite),
+                            fontFamily: "SfPro",
+                            fontWeight: FontWeight.w100,
+                            fontSize: 14,
+                            color: AppColor.bgBasic,
+                          ),
                         ),
                       ],
                     ),
@@ -163,7 +234,8 @@ class ProfilePage extends StatelessWidget {
             )
           ],
         ),
-      ),
+      ) ,)
+
     );
   }
 }
