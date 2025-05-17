@@ -52,6 +52,7 @@ class ListPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(height: 60),
                 Container(
                   margin: EdgeInsets.only(top: 9, bottom: 9),
                   // color: AppColor.bgBlue,
@@ -93,7 +94,51 @@ class ListPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(height: 10,),
+                Divider(
+                  color: Colors.grey,
+                  thickness: 0.5,
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 9, bottom: 9),
+                  // color: AppColor.bgBlue,
+                  child: Row(
+                    children: [
+                      ClipOval(
+                        child: Image.asset(
+                          'assets/image/flowwer.jpg',
+                          width: 40,
+                          height: 40,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      SizedBox(width: 10,),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'PT.ubur-ubur ikan ELEl',
+                            style: TextStyle(
+                              fontFamily: "SfProDisplay",
+                              fontSize: 16,
+                              color: AppColor.textBlack,
+                              height: 1.2,
+                            ),
+                          ),
+                          Text(
+                            'Perikanan',
+                            style: TextStyle(
+                              fontFamily: "SfPro",
+                              fontSize: 16,
+                              color: AppColor.textGrayV1,
+                              height: 1.2,
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
               ],
             ),
           ),

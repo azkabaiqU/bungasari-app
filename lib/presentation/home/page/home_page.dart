@@ -5,6 +5,7 @@ import '../../../styles/text_style.dart';
 
 import '../../form_page.dart';
 import '../../../widgets/divider/divider.dart';
+import '../list_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -378,8 +379,6 @@ class HomePage extends StatelessWidget {
                                         ],
                                       ),
                                     ),
-                                    // COLAB4
-                                    s
                                   ],
                                 ),
                               )
@@ -388,41 +387,43 @@ class HomePage extends StatelessWidget {
                         ),
                         Positioned(
                             top: 7,
-                            right:6,
+                            right: 6,
                             child: GestureDetector(
                               onTap: () {
                                 showDialog(
                                   context: context,
-                                  barrierDismissible: true, // Mengizinkan menutup dialog dengan mengetuk area di luar
+                                  barrierDismissible: true,
                                   builder: (BuildContext context) {
                                     return SiapaPopup();
                                   },
                                 );
                                 print('Tanda tanya diklik!');
                               },
-                              child:
-                              Container(
+                              child: Container(
                                 width: 30,
                                 height: 30,
-                                // color: AppColor.bgOrange,
                                 child: Center(
                                   child: Container(
                                     width: 19,
                                     height: 19,
                                     decoration: BoxDecoration(
-                                      // color: AppColor.bgBlue,
                                       shape: BoxShape.circle,
                                       border: Border.all(
                                         color: AppColor.textGrayV1,
                                         width: 1,
                                       ),
                                     ),
-                                    child:
-                                    Center( child:
-                                    Text(
-                                      '?',
-                                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w100,color: AppColor.textGrayV1, fontFamily: "SfDisplayPro"),
-                                    ),),
+                                    child: Center(
+                                      child: Text(
+                                        '?',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w100,
+                                          color: AppColor.textGrayV1,
+                                          fontFamily: "SfDisplayPro",
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -488,7 +489,7 @@ class HomePage extends StatelessWidget {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => FormPage()),
+                                MaterialPageRoute(builder: (context) => ListPage()),
                               ); },
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
@@ -582,7 +583,6 @@ class StatusPopup extends StatelessWidget {
               ),
             ),
             SizedBox(height: 15),
-
             // DITERIMA
             Container(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
@@ -612,7 +612,6 @@ class StatusPopup extends StatelessWidget {
               ),
             ),
             SizedBox(height: 15),
-
             // DIPROSSES
             Container(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
@@ -642,7 +641,6 @@ class StatusPopup extends StatelessWidget {
               ),
             ),
             SizedBox(height: 15),
-
             // DiAJUKAN
             Container(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
