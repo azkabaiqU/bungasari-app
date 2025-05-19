@@ -168,13 +168,34 @@ class LoginPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Have’t Make Account?',
+                  'Haven’t made an account?',
                   style: TextStyle(fontSize: 14, color: Colors.grey),
                 ),
-                SizedBox(width: 5),
-                Text('Sign Up', style: TextStyle(fontSize: 14, decoration: TextDecoration.underline),)
+                SizedBox(width: 8),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => RegisterPage()),
+                    );
+                  },
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                    minimumSize: Size(0, 0),
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  child: Text(
+                    'Sign Up',
+                    style: TextStyle(
+                      fontSize: 14,
+                      decoration: TextDecoration.underline,
+                      color: AppColor.bgBtnBlack,
+                    ),
+                  ),
+                ),
               ],
             )
+
           ],
         ),
       ),

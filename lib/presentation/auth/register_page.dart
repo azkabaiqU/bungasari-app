@@ -1,9 +1,11 @@
 import 'package:bungasari_app/preference/color.dart';
+import 'package:bungasari_app/presentation/auth/login_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../styles/text_style.dart';
 import '../../widgets/buttons/input_widget.dart';
 
+import '../connector.dart';
 import '../home/page/home_page.dart';
 
 
@@ -161,7 +163,7 @@ class RegisterPage extends StatelessWidget {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => HomePage()),
+                              MaterialPageRoute(builder: (context) => ConnectorPage()),
                             ); },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColor.bgBtnBlack,
@@ -192,7 +194,21 @@ class RegisterPage extends StatelessWidget {
                   style: TextStyle(fontSize: 14, color: Colors.grey),
                 ),
                 SizedBox(width: 5),
-                Text('Sign in', style: TextStyle(fontSize: 14, decoration: TextDecoration.underline),)
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginPage()),
+                    );
+                  },
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                    minimumSize: Size(0, 0),
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  child:                 Text('Sign in', style: TextStyle(fontSize: 14, decoration: TextDecoration.underline),)
+
+                ),
               ],
             )
           ],

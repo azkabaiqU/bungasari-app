@@ -1,3 +1,4 @@
+import 'package:bungasari_app/presentation/connector.dart';
 import 'package:flutter/material.dart';
 import 'package:bungasari_app/preference/preference.dart';
 import 'package:image_picker/image_picker.dart';
@@ -1137,7 +1138,11 @@ class KirimPopup extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => ConnectorPage()),
+                            (Route<dynamic> route) => false,
+                      );
                     },
                     child: Text(
                       'Lanjutkan',

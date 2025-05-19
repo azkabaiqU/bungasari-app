@@ -231,8 +231,20 @@ class ProfilePage extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
+            SizedBox(height: 20,),
+            TextButton(
+              onPressed: () {
+                // aksi logout di sini
+              },
+              child: Text(
+                'Logout',
+                style: TextStyle(color: Colors.red),
+              ),
             )
+
           ],
+
         ),
       ) ,)
 
