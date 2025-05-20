@@ -1,4 +1,6 @@
 import 'package:bungasari_app/preference/preference.dart';
+import 'package:bungasari_app/presentation/connector.dart';
+import 'package:bungasari_app/presentation/home/page/home_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets/divider/divider.dart';
@@ -139,10 +141,11 @@ class LoginPage extends StatelessWidget {
                         padding: const EdgeInsets.only(right: 1),
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
+                            Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute(builder: (context) => RegisterPage()),
-                            ); },
+                              MaterialPageRoute(builder: (context) => ConnectorPage()),
+                            );
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColor.bgBtnBlack,
                             minimumSize: Size(double.infinity, 50),
