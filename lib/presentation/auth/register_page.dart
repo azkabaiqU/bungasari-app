@@ -5,12 +5,21 @@ import 'package:flutter/material.dart';
 import '../../styles/text_style.dart';
 import '../../widgets/buttons/input_widget.dart';
 
+import '../../bloc/register/register_bloc.dart';
+import '../../bloc/register/register_state.dart';
+import '../../bloc/register/register_event.dart';
+
 import '../connector.dart';
 import '../home/page/home_page.dart';
 
 
 class RegisterPage extends StatelessWidget {
-  const RegisterPage({super.key});
+  RegisterPage({super.key});
+
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +69,32 @@ class RegisterPage extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 24),
+                    // nama user
+                    Text(
+                      'Name',
+                      style: TextStyle(
+                        fontFamily: "SfPro",
+                        fontSize: 16,
+                        color: AppColor.textGrayV1,
+                      ),
+                    ),
+                    SizedBox(height: 7),
+                    TextField(
+                      controller: nameController,
+                      keyboardType: TextInputType.phone,
+                      decoration: InputDecoration(
+                        hintText: "asep sudirman",
+                        hintStyle: AppTextStyles.TextfrHint,
+
+                        border: OutlineInputBorder(),
+                        enabledBorder: inputBorderStyle,
+                        focusedBorder: focusedBorderStyle,
+                        errorBorder: errorBorderStyle,
+                        focusedErrorBorder: errorBorderStyle,
+                      ),
+                    ),
+                    SizedBox(height: 25),
+
                     // Email address
                     Text(
                       'Email address',
@@ -71,33 +106,10 @@ class RegisterPage extends StatelessWidget {
                     ),
                     SizedBox(height: 7),
                     TextField(
+                      controller: emailController,
                       keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
                         hintText: "Akapack@gmail.com",
-                        hintStyle: AppTextStyles.TextfrHint,
-
-                        border: OutlineInputBorder(),
-                        enabledBorder: inputBorderStyle,
-                        focusedBorder: focusedBorderStyle,
-                        errorBorder: errorBorderStyle,
-                        focusedErrorBorder: errorBorderStyle,
-                      ),
-                    ),
-                    SizedBox(height: 25),
-                    // Phone number
-                    Text(
-                      'Phone number',
-                      style: TextStyle(
-                        fontFamily: "SfPro",
-                        fontSize: 16,
-                        color: AppColor.textGrayV1,
-                      ),
-                    ),
-                    SizedBox(height: 7),
-                    TextField(
-                      keyboardType: TextInputType.phone,
-                      decoration: InputDecoration(
-                        hintText: "082082082",
                         hintStyle: AppTextStyles.TextfrHint,
 
                         border: OutlineInputBorder(),
@@ -119,6 +131,7 @@ class RegisterPage extends StatelessWidget {
                     ),
                     SizedBox(height: 7),
                     TextField(
+                      controller: passwordController,
                       keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
                         hintText: "**********",
@@ -143,6 +156,7 @@ class RegisterPage extends StatelessWidget {
                     ),
                     SizedBox(height: 7),
                     TextField(
+                      controller: confirmController,
                       keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
                         hintText: "**********",
@@ -163,8 +177,9 @@ class RegisterPage extends StatelessWidget {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => ConnectorPage()),
-                            ); },
+                              MaterialPageRoute(builder: (context) => LoginPage()),
+                            );
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColor.bgBtnBlack,
                             minimumSize: Size(double.infinity, 50),
