@@ -170,8 +170,12 @@ class _FormPageState extends State<FormPage> {
 
 class PartOne extends StatelessWidget {
   final VoidCallback onNext;
+   PartOne({required this.onNext});
 
-  const PartOne({required this.onNext});
+  final nameController = TextEditingController();
+  final addressController = TextEditingController();
+  final emailController = TextEditingController();
+  final phoneController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -192,6 +196,7 @@ class PartOne extends StatelessWidget {
             ),
             SizedBox(height: 7),
             TextField(
+              controller: nameController,
               decoration: InputDecoration(
                 hintText: "Nama Perusahaan anda",
                 hintStyle: AppTextStyles.TextfrHint,
@@ -216,6 +221,7 @@ class PartOne extends StatelessWidget {
             ),
             SizedBox(height: 7),
             TextField(
+              controller: addressController,
               decoration: InputDecoration(
                 hintText: "Jl. Contoh No. 123, Kota, Provinsi",
                 hintStyle: AppTextStyles.TextfrHint,
@@ -240,6 +246,7 @@ class PartOne extends StatelessWidget {
             ),
             SizedBox(height: 7),
             TextField(
+              controller: emailController,
               decoration: InputDecoration(
                 hintText: "example@gmail.com",
                 hintStyle: AppTextStyles.TextfrHint,
@@ -265,7 +272,6 @@ class PartOne extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-
                     padding: EdgeInsets.only(right: 10),
                     child: SizedBox(
                       width: 16,
@@ -309,6 +315,7 @@ class PartOne extends StatelessWidget {
             ),
             SizedBox(height: 7),
             TextField(
+              controller: phoneController,
               keyboardType: TextInputType.phone,
               decoration: InputDecoration(
                 hintText: "08XX-XXXX-XXXX",
@@ -358,7 +365,10 @@ class PartTwo extends StatefulWidget {
   final VoidCallback onNext;
   final VoidCallback onPrevious;
 
-  const PartTwo({Key? key, required this.onNext, required this.onPrevious}) : super(key: key);
+  final logoPathController = TextEditingController();
+  final businessTypeController = TextEditingController();
+  final descriptionController = TextEditingController();
+  PartTwo({Key? key, required this.onNext, required this.onPrevious}) : super(key: key);
 
   @override
   _PartTwoState createState() => _PartTwoState();
@@ -434,6 +444,92 @@ class _PartTwoState extends State<PartTwo> {
               ),
             ),
             SizedBox(height: 7),
+            // Column(
+            //   children: [
+            //     if (_selectedImage == null)
+            //       DottedBorder(
+            //         color: Colors.black,
+            //         strokeWidth: 0.5,
+            //         dashPattern: [10, 10],
+            //         borderType: BorderType.RRect,
+            //         radius: Radius.circular(7),
+            //         child : MaterialButton(
+            //           onPressed: _pickImageFromGallery,
+            //           padding: EdgeInsets.symmetric(horizontal: 0),
+            //           child: Container(
+            //             padding: EdgeInsets.symmetric(vertical: 30),
+            //             alignment: Alignment.center,
+            //             width: double.infinity,
+            //             decoration: BoxDecoration(
+            //               color: AppColor.bgGrayFrImgInpt,
+            //               borderRadius: BorderRadius.all(Radius.circular(7)),
+            //             ),
+            //             child: Column(
+            //               children: [
+            //                 Image.asset(
+            //                   'assets/image/download_icon.png',
+            //                   width: 32,
+            //                   height: 32,
+            //                   fit: BoxFit.contain,
+            //                 ),
+            //                 SizedBox(height: 8),
+            //                 Text(
+            //                   'Upload Your\n Document Here',
+            //                   textAlign: TextAlign.center,
+            //                   style: TextStyle(
+            //                     color: AppColor.bgGrayV2,
+            //                     fontSize: 14,
+            //                     fontFamily: "SfProDisplay",
+            //                   ),
+            //                 ),
+            //               ],
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //     if (_fileName != null)
+            //       DottedBorder(
+            //         color: Colors.black,
+            //         strokeWidth: 0.5,
+            //         dashPattern: [10, 10],
+            //         borderType: BorderType.RRect,
+            //         radius: Radius.circular(7),
+            //         child: MaterialButton(
+            //           onPressed: _pickImageFromGallery,
+            //           padding: EdgeInsets.symmetric(horizontal: 0),
+            //           child: Container(
+            //             padding: EdgeInsets.only(
+            //                 top: 10, bottom: 10, right: 20, left: 20),
+            //             alignment: Alignment.center,
+            //             width: double.infinity,
+            //             decoration: BoxDecoration(
+            //               color: AppColor.bgGrayFrImgInpt,
+            //               borderRadius: BorderRadius.all(Radius.circular(7)),
+            //             ),
+            //             child: Row(
+            //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //               children: [
+            //                 Text(
+            //                   _truncateFileName(_fileName!, 30),
+            //                   overflow: TextOverflow.ellipsis,
+            //                   style: TextStyle(
+            //                     color: AppColor.bgGrayV2,
+            //                     fontSize: 14,
+            //                     fontFamily: "SfPro",
+            //                   ),
+            //                 ),
+            //                 const SizedBox(width: 8),
+            //                 GestureDetector(
+            //                   onTap: _removeImage,
+            //                   child: Icon(Icons.close, color: AppColor.textGrayV2),
+            //                 ),
+            //               ],
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //   ],
+            // ),
             Column(
               children: [
                 if (_selectedImage == null)
@@ -711,8 +807,10 @@ class _PartTwoState extends State<PartTwo> {
 class PartThree extends StatefulWidget {
   final VoidCallback onNext;
   final VoidCallback onPrevious;
+  final notesController = TextEditingController();
+  final attachmentPathController = TextEditingController();
 
-  const PartThree({Key? key, required this.onNext, required this.onPrevious}) : super(key: key);
+  PartThree({Key? key, required this.onNext, required this.onPrevious}) : super(key: key);
 
   @override
   _PartThreeState createState() => _PartThreeState();
