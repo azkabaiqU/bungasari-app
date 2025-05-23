@@ -1,8 +1,7 @@
 import 'package:bungasari_app/preference/preference.dart';
 import 'package:flutter/material.dart';
 
-import '../../widgets/divider/divider.dart'; // Jika ini digunakan di bagian lain, tetap pertahankan
-import '../../styles/text_style.dart';
+import '../../../styles/text_style.dart';
 
 class GethelpPage extends StatelessWidget {
   const GethelpPage({super.key});

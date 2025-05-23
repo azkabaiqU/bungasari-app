@@ -1,18 +1,17 @@
 import 'dart:convert';
 
+import 'package:bungasari_app/preference/divider.dart';
 import 'package:bungasari_app/preference/preference.dart';
 import 'package:bungasari_app/presentation/auth/blocs/login/login_bloc.dart';
+import 'package:bungasari_app/presentation/auth/pages/getHelp_page.dart';
+import 'package:bungasari_app/presentation/auth/pages/register_page.dart';
+import 'package:bungasari_app/presentation/auth/widgets/auth_button.dart';
+import 'package:bungasari_app/presentation/auth/widgets/login_form.dart';
 import 'package:bungasari_app/presentation/connector.dart';
+import 'package:bungasari_app/styles/text_style.dart';
+import 'package:bungasari_app/presentation/auth/widgets/google_signin_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../widgets/divider/divider.dart';
-import '../../widgets/buttons/input_widget.dart';
-import '../../widgets/buttons/google_signin_button.dart';
-import '../../styles/text_style.dart';
-
-import 'register_page.dart';
-import 'getHelp_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -69,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                     top: 41, right: 23, left: 23, bottom: 23),
                 child: Column(
                   crossAxisAlignment:
-                  CrossAxisAlignment.center, // ⬅️ Ini biar text ke kiri
+                      CrossAxisAlignment.center, // ⬅️ Ini biar text ke kiri
                   children: [
                     Image.asset(
                       'assets/image/bungasari_logo_1x.png',
@@ -111,55 +110,20 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(
                       height: 14,
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(color: Colors.grey, width: 0.5),
-                          top: BorderSide(color: Colors.grey, width: 0.5),
-                          left: BorderSide(color: Colors.grey, width: 0.5),
-                          right: BorderSide(color: Colors.grey, width: 0.5),
-                          // atas tidak ada
-                        ),
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(7),
-                          topRight: Radius.circular(7),
-                        ),
-                      ),
-                      child: TextField(
-                        keyboardType: TextInputType.phone,
-                        controller: usernameController,
-                        decoration: InputDecoration(
-                          hintText: "Email address",
-                          hintStyle: AppTextStyles.TextfrHint,
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 14),
-                        ),
+                    LoginForm(
+                      hintText: 'Email Address',
+                      controller: usernameController,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(7),
+                        topRight: Radius.circular(7),
                       ),
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(color: Colors.grey, width: 0.5),
-                          left: BorderSide(color: Colors.grey, width: 0.5),
-                          right: BorderSide(color: Colors.grey, width: 0.5),
-                          // atas tidak ada
-                        ),
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(7),
-                          bottomRight: Radius.circular(7),
-                        ),
-                      ),
-                      child: TextField(
-                        keyboardType: TextInputType.phone,
-                        controller: passwordController,
-                        decoration: InputDecoration(
-                          hintText: "Password",
-                          hintStyle: AppTextStyles.TextfrHint,
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 14),
-                        ),
+                    LoginForm(
+                      hintText: 'Password',
+                      controller: passwordController,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(7),
+                        bottomRight: Radius.circular(7),
                       ),
                     ),
                     SizedBox(
@@ -186,63 +150,7 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                        padding: const EdgeInsets.only(right: 1),
-                        child: BlocListener<LoginBloc, LoginState>(
-                          listener: (context, state) {
-                            if(state is LoginSuccess){
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const ConnectorPage()
-                                  ),
-                              );
-                            }
-                            if(state is LoginFailure){
-                              final errorMessage = jsonDecode(state.message) ['message'];
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                    content: Text(errorMessage),
-                                  backgroundColor: Colors.red,
-                                ),
-                              );
-                            }
-                          },
-                          child: BlocBuilder<LoginBloc, LoginState>(
-                            builder: (context, state) {
-                              if (state is LoginLoading) {
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              }
-
-                              return ElevatedButton(
-                                onPressed: () {
-                                  context.read<LoginBloc>().add(
-                                    LoginButtonPressed(
-                                        email: usernameController.text,
-                                        password: passwordController.text),
-                                  );
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppColor.bgBtnBlack,
-                                  minimumSize: Size(double.infinity, 50),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  elevation: 0,
-                                ),
-                                child: Text(
-                                  'Continue',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        )),
+                    AuthButton(onPressed: () {}, title: 'Login'),
                   ],
                 ),
               ),

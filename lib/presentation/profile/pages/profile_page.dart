@@ -2,9 +2,8 @@ import 'package:bungasari_app/presentation/home/blocs/logout/logout_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:bungasari_app/preference/preference.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../styles/text_style.dart';
-import 'auth/login_page.dart';
-import 'form_page.dart';
+import '../../../styles/text_style.dart';
+import '../../form/pages/form_page.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -314,7 +313,7 @@ class ProfilePage extends StatelessWidget {
                 BlocConsumer<LogoutBloc, LogoutState>(
                   listener: (context, state) {
                     if(state is LogoutSuccess){
-                      context.pushReplacement(const LoginPage());
+
                     }
                   },
                   builder: (context, state) {

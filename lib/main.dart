@@ -1,9 +1,9 @@
 import 'package:bungasari_app/data/dataresource/auth_remote_dataresource.dart';
 import 'package:bungasari_app/presentation/auth/blocs/login/login_bloc.dart';
+import 'package:bungasari_app/presentation/auth/pages/login_page.dart';
 import 'package:bungasari_app/presentation/home/blocs/logout/logout_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' show BlocProvider, MultiBlocProvider;
-import 'presentation/auth/login_page.dart';
 
 void main() {
   runApp(const MyApp());

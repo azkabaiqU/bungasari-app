@@ -1,7 +1,7 @@
 import 'package:bungasari_app/preference/color.dart';
+import 'package:bungasari_app/presentation/profile/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:bungasari_app/presentation/home/page/home_page.dart';
-import 'package:bungasari_app/presentation/profile_page.dart';
 
 class ConnectorPage extends StatefulWidget {
   const ConnectorPage({super.key});

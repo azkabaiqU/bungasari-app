@@ -1,11 +1,11 @@
+import 'package:bungasari_app/preference/divider.dart';
+import 'package:bungasari_app/presentation/form/pages/form_page.dart';
+import 'package:bungasari_app/presentation/home/list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:bungasari_app/preference/preference.dart';
 import 'package:bungasari_app/widgets/navbar.dart';
 import '../../../styles/text_style.dart';
 
-import '../../form_page.dart';
-import '../../../widgets/divider/divider.dart';
-import '../list_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
