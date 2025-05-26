@@ -236,7 +236,6 @@ class ProfilePage extends StatelessWidget {
                 ),
                 BlocConsumer<LogoutBloc, LogoutState>(
                   listener: (context, state) {
-
                     if(state is LogoutSuccess){
                       context.pushAndRemoveUntil(const LoginPage(), (route) => false);
                     }
