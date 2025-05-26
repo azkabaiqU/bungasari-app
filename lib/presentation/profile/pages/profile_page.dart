@@ -1,5 +1,11 @@
 import 'package:bungasari_app/core/core.dart';
+
 import 'package:bungasari_app/presentation/profile/blocs/logout/logout_bloc.dart';
+
+import 'package:bungasari_app/presentation/auth/pages/login_page.dart';
+import 'package:bungasari_app/presentation/form/widgets/alert.dart';
+import 'package:bungasari_app/presentation/profile/widgets/header.dart';
+import 'package:bungasari_app/presentation/profile/widgets/list_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:bungasari_app/presentation/auth/pages/login_page.dart';
 import 'package:bungasari_app/preference/preference.dart';
@@ -20,29 +26,9 @@ class ProfilePage extends StatelessWidget {
                 EdgeInsets.all(20), // Tambahkan kurung kurawal setelah Padding
             child: Column(
               children: [
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: AppColor.bgWhite,
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  padding: EdgeInsets.only(
-                    top: 17,
-                    right: 21,
-                    left: 21,
-                    bottom: 21,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'PT. Akapack Group',
-                        style: AppTextStyles.TitlefrFinalData,
-                      ),
-                      Text('Packaging Sales',
-                          style: AppTextStyles.DescfrFinalData)
-                    ],
-                  ),
+                Header(
+                  name: 'PT. Akapack Group',
+                  category: 'Packaging Sales',
                 ),
                 SizedBox(height: 14),
                 Container(
@@ -77,46 +63,30 @@ class ProfilePage extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Nama Perusahaan',
-                            style: AppTextStyles.TitlefrFinalData,
-                          ),
-                          Text(
-                            'PT. Akapack Group',
-                            style: AppTextStyles.DescfrFinalData,
+                          ListProfile(
+                            title: 'Nama Perusahaan',
+                            name: 'PT. Akapack Group',
                           ),
                           SizedBox(
                             height: 15,
                           ),
-                          Text(
-                            'Alamat Perusahaan',
-                            style: AppTextStyles.TitlefrFinalData,
-                          ),
-                          Text(
-                            'Jl. Kiara Condong 12312',
-                            style: AppTextStyles.DescfrFinalData,
+                          ListProfile(
+                            title: 'Alamat Perusahaan',
+                            name: 'Jl. Kiaracondong, 12312',
                           ),
                           SizedBox(
                             height: 15,
                           ),
-                          Text(
-                            'Email Perusahaan',
-                            style: AppTextStyles.TitlefrFinalData,
-                          ),
-                          Text(
-                            'Akapack@gmail.com',
-                            style: AppTextStyles.DescfrFinalData,
+                          ListProfile(
+                            title: 'Email Perusahaan',
+                            name: 'ackapackgroup.com',
                           ),
                           SizedBox(
                             height: 15,
                           ),
-                          Text(
-                            'Nomer Telepone',
-                            style: AppTextStyles.TitlefrFinalData,
-                          ),
-                          Text(
-                            '0800808080808',
-                            style: AppTextStyles.DescfrFinalData,
+                          ListProfile(
+                            title: 'Nomor Telepon',
+                            name: '08123456789',
                           ),
                           SizedBox(
                             height: 15,
@@ -156,35 +126,25 @@ class ProfilePage extends StatelessWidget {
                           SizedBox(
                             height: 15,
                           ),
-                          Text(
-                            'Jenis Usaha',
-                            style: AppTextStyles.TitlefrFinalData,
-                          ),
-                          Text(
-                            'Pakaging',
-                            style: AppTextStyles.DescfrFinalData,
+                          ListProfile(
+                            title: 'Jenis Usaha',
+                            name: 'Packaging Sales',
                           ),
                           SizedBox(
                             height: 15,
                           ),
-                          Text(
-                            'Deskripsi Singkat Perusahaan',
-                            style: AppTextStyles.TitlefrFinalData,
-                          ),
-                          Text(
-                            'AWe are PT. Akapack Artisan in Bandung which has been producing packaging since 2000.',
-                            style: AppTextStyles.DescfrFinalData,
+                          ListProfile(
+                            title: 'Deskripsi Singkat Perusahaan',
+                            name:
+                                'AWe are PT. Akapack Artisan in Bandung which has been producing packaging since 2000.',
                           ),
                           SizedBox(
                             height: 15,
                           ),
-                          Text(
-                            'Catatan Tambahan',
-                            style: AppTextStyles.TitlefrFinalData,
-                          ),
-                          Text(
-                            'AWe are PT. Akapack Artisan in Bandung which has been producing packaging since 2000.AWe are PT. Akapack Artisan in Bandung which has been producing packaging since 2000.AWe are PT. Akapack Artisan in Bandung which has been producing packaging since 2000.AWe are PT. Akapack Artisan in Bandung which has been producing packaging since 2000.AWe are PT. Akapack Artisan in Bandung which has been producing packaging since 2000.',
-                            style: AppTextStyles.DescfrFinalData,
+                          ListProfile(
+                            title: 'Catatan Tambahan',
+                            name:
+                                'AWe are PT. Akapack Artisan in Bandung which has been producing packaging since 2000.AWe are PT. Akapack Artisan in Bandung which has been producing packaging since 2000.AWe are PT. Akapack Artisan in Bandung which has been producing packaging since 2000.AWe are PT. Akapack Artisan in Bandung which has been producing packaging since 2000.AWe are PT. Akapack Artisan in Bandung which has been producing packaging since 2000.',
                           ),
                           SizedBox(
                             height: 15,
@@ -226,47 +186,9 @@ class ProfilePage extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: AppColor.bgOrange,
-                          borderRadius: BorderRadius.all(Radius.circular(7)),
-                        ),
-                        padding: EdgeInsets.all(17),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              // Tambahkan padding di sini, bukan di ElevatedButton
-                              padding: EdgeInsets.only(right: 10),
-                              child: SizedBox(
-                                width: 16,
-                                height: 16,
-                                child: ElevatedButton(
-                                  onPressed: () {},
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.transparent,
-                                    shadowColor: Colors.transparent,
-                                    elevation: 0,
-                                    padding: EdgeInsets
-                                        .zero, // Hapus padding di sini
-                                  ),
-                                  child: Image.asset(
-                                    'assets/image/tandaseru_icon.png',
-                                    width: 16,
-                                    height: 16,
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                  'Anda hanya dapat mengirim ulang pengajuan maksimal 3 kali dalam sebulan. Pastikan semua data sudah benar sebelum mengirim ulang.',
-                                  style: AppTextStyles.TextfrAttention),
-                            ),
-                          ],
-                        ),
+                      Alert(
+                        message:
+                            'Anda hanya dapat mengirim ulang pengajuan maksimal 3 kali dalam sebulan. Pastikan semua data sudah benar sebelum mengirim ulang.',
                       ),
                       SizedBox(height: 7),
                       ElevatedButton(
@@ -314,6 +236,7 @@ class ProfilePage extends StatelessWidget {
                 ),
                 BlocConsumer<LogoutBloc, LogoutState>(
                   listener: (context, state) {
+
                     if(state is LogoutSuccess){
                       context.pushAndRemoveUntil(const LoginPage(), (route) => false);
                     }
@@ -339,7 +262,7 @@ class ProfilePage extends StatelessWidget {
                       ),
                     );
                   },
-                )
+                ),
               ],
             ),
           ),
