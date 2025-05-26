@@ -1,47 +1,20 @@
-import 'package:equatable/equatable.dart';
+part of 'register_bloc.dart';
 
-// part of 'register_bloc.dart';
+@immutable
+sealed class RegisterState {}
 
-class RegisterState extends Equatable {
-  final String name;
-  final String email;
-  final String password;
-  final String confirmPassword;
-  final bool isSubmitting;
-  final bool isSuccess;
-  final String? errorMessage;
+final class RegisterInitial extends RegisterState {}
 
-  const RegisterState({
-    this.name = '',
-    this.email = '',
-    this.password = '',
-    this.confirmPassword = '',
-    this.isSubmitting = false,
-    this.isSuccess = false,
-    this.errorMessage,
-  });
+final class RegisterLoading extends RegisterState {}
 
-  RegisterState copyWith({
-    String? name,
-    String? email,
-    String? password,
-    String? confirmPassword,
-    bool? isSubmitting,
-    bool? isSuccess,
-    String? errorMessage,
-  }) {
-    return RegisterState(
-      name: name ?? this.name,
-      email: email ?? this.email,
-      password: password ?? this.password,
-      confirmPassword: confirmPassword ?? this.confirmPassword,
-      isSubmitting: isSubmitting ?? this.isSubmitting,
-      isSuccess: isSuccess ?? this.isSuccess,
-      errorMessage: errorMessage,
-    );
-  }
+final class RegisterSuccess extends RegisterState {
+  final AuthResponseModel authResponseModel;
 
-  @override
-  List<Object?> get props =>
-      [name, email, password, confirmPassword, isSubmitting, isSuccess, errorMessage];
+  RegisterSuccess({required this.authResponseModel});
+}
+
+final class RegisterFailure extends RegisterState {
+  final String message;
+
+  RegisterFailure({required this.message});
 }

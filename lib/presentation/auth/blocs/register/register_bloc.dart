@@ -1,54 +1,33 @@
 import 'package:bloc/bloc.dart';
+import 'package:bungasari_app/data/dataresource/auth_remote_dataresource.dart';
+import 'package:bungasari_app/data/model/response/auth_response_model.dart';
+import 'package:meta/meta.dart';
 
-// part 'register_event.dart';
-// part 'register_state.dart';
-import 'register_event.dart';
-import 'register_state.dart';
+import '../../../../data/dataresource/auth_local_dataresource.dart';
+
+part 'register_event.dart';
+part 'register_state.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
-  RegisterBloc() : super(const RegisterState()) {
-    // Event handler untuk nama berubah
-    on<NameChanged>((event, emit) {
-      emit(state.copyWith(name: event.name));
-    });
+  final AuthRemoteDataresource authRemoteDataresource;
+  final AuthLocalDataresource authLocalDataresource;
 
-    // Event handler untuk email berubah
-    on<EmailChanged>((event, emit) {
-      emit(state.copyWith(email: event.email));
-    });
+  RegisterBloc( this.authRemoteDataresource, this.authLocalDataresource)
+      : super(RegisterInitial()) {
+    on<RegisterButtonPressed>((event, emit) async {
+      emit(RegisterLoading());
 
-    // Event handler untuk password berubah
-    on<PasswordChanged>((event, emit) {
-      emit(state.copyWith(password: event.password));
-    });
+      final response = await authRemoteDataresource.register(
+          name: event.name,
+          email: event.email,
+          password: event.password,
+        );
 
-    // Event handler untuk konfirmasi password berubah
-    on<ConfirmPasswordChanged>((event, emit) {
-      emit(state.copyWith(confirmPassword: event.confirmPassword));
-    });
-
-    // Event handler untuk submit register
-    on<RegisterSubmitted>((event, emit) async {
-      emit(state.copyWith(isSubmitting: true, errorMessage: null));
-
-      try {
-        // Contoh simulasi delay untuk proses register
-        await Future.delayed(const Duration(seconds: 2));
-
-        // Contoh validasi sederhana
-        if (state.password != state.confirmPassword) {
-          emit(state.copyWith(
-              isSubmitting: false,
-              errorMessage: 'Password dan konfirmasi tidak cocok'));
-          return;
-        }
-
-        // Jika sukses
-        emit(state.copyWith(isSubmitting: false, isSuccess: true));
-      } catch (e) {
-        emit(state.copyWith(
-            isSubmitting: false, errorMessage: 'Gagal registrasi: $e'));
-      }
+        response.fold(
+              (l) => emit(RegisterFailure(message: l)),
+              (r) => emit(RegisterSuccess(authResponseModel: r)),
+        );
     });
   }
 }
+

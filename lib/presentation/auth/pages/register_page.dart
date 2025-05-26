@@ -1,11 +1,17 @@
+import 'dart:convert';
+
 import 'package:bungasari_app/preference/color.dart';
 import 'package:bungasari_app/presentation/auth/pages/login_page.dart';
 import 'package:bungasari_app/presentation/auth/widgets/auth_button.dart';
 import 'package:bungasari_app/presentation/auth/widgets/register_form.dart';
+import 'package:bungasari_app/presentation/connector.dart';
 import 'package:bungasari_app/styles/text_style.dart';
 import 'package:bungasari_app/preference/input_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../blocs/register/register_bloc.dart';
 
 class RegisterPage extends StatelessWidget {
   RegisterPage({super.key});
@@ -92,7 +98,60 @@ class RegisterPage extends StatelessWidget {
                     ),
                     SizedBox(height: 20),
                     // Submit
-                    AuthButton(onPressed: () {}, title: 'Register')
+                    BlocConsumer<RegisterBloc, RegisterState>(
+                      listener: (context, state) {
+                        if(state is RegisterSuccess){
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ConnectorPage(),
+                              ),
+                          );
+                        }
+                        if(state is RegisterFailure){
+                         final errorMessage = jsonDecode(state.message)['message'];
+
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(errorMessage))
+                          );
+                        }
+                      },
+                      builder: (context, state) {
+                        if(state is RegisterLoading){
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        return AuthButton(
+                          onPressed: () {
+                            final password = passwordController.text;
+                            final confirmPassword = confirmController.text;
+
+                            if (password != confirmPassword) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Password and Confirm Password do not match!'),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                              return; // Jangan lanjut kalau tidak sama
+                            }
+
+                            // Kalau sama, lanjut ke event Bloc
+                            context.read<RegisterBloc>().add(
+                              RegisterButtonPressed(
+                                name: nameController.text,
+                                email: emailController.text,
+                                password: password,
+                              ),
+                            );
+                          },
+                          title: 'Register',
+                        );
+
+                      },
+                    )
+
                   ],
                 ),
               ),

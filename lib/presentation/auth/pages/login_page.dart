@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:bungasari_app/core/core.dart';
+import 'package:bungasari_app/data/dataresource/auth_local_dataresource.dart';
 import 'package:bungasari_app/preference/divider.dart';
 import 'package:bungasari_app/preference/preference.dart';
 import 'package:bungasari_app/presentation/auth/blocs/login/login_bloc.dart';
@@ -68,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                     top: 41, right: 23, left: 23, bottom: 23),
                 child: Column(
                   crossAxisAlignment:
-                      CrossAxisAlignment.center, // ⬅️ Ini biar text ke kiri
+                  CrossAxisAlignment.center, // ⬅️ Ini biar text ke kiri
                   children: [
                     Image.asset(
                       'assets/image/bungasari_logo_1x.png',
@@ -150,7 +152,44 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(
                       height: 10,
                     ),
-                    AuthButton(onPressed: () {}, title: 'Login'),
+                    BlocListener<LoginBloc, LoginState>(
+                      listener: (context, state) {
+                        if(state is LoginSuccess){
+                          AuthLocalDataresource().saveAuthData(state.authResponseModel);
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const ConnectorPage(),
+                              ),
+                          );
+                        }
+                        if(state is LoginFailure){
+                          final errorMessage = jsonDecode(state.message) ['message'];
+
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(errorMessage))
+                          );
+                        }
+                      },
+                      child: BlocBuilder<LoginBloc, LoginState>(
+                        builder: (context, state) {
+                          if (state is LoginLoading) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+
+                          return AuthButton(onPressed: () {
+                            context.read<LoginBloc>().add(
+                              LoginButtonPressed(
+                                  email: usernameController.text,
+                                  password: passwordController.text
+                              ),
+                            );
+                          }, title: 'Login');
+                        },
+                      ),
+                    ),
                   ],
                 ),
               ),

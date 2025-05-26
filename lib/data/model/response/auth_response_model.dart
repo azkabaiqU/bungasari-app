@@ -2,12 +2,12 @@
 import 'dart:convert';
 
 class AuthResponseModel {
-  final String massage;
+  final String message;
   final String accessToken;
   final User user;
 
   AuthResponseModel({
-    required this.massage,
+    required this.message,
     required this.accessToken,
     required this.user,
   });
@@ -17,13 +17,13 @@ class AuthResponseModel {
   String toJson() => json.encode(toMap());
 
   factory AuthResponseModel.fromMap(Map<String, dynamic> json) => AuthResponseModel(
-    massage: json["massage"],
+    message: json["message"],
     accessToken: json["access_token"],
     user: User.fromMap(json["user"]),
   );
 
   Map<String, dynamic> toMap() => {
-    "massage": massage,
+    "message": message,
     "access_token": accessToken,
     "user": user.toMap(),
   };
@@ -34,8 +34,8 @@ class User {
   final String name;
   final String email;
   final String role;
-  final dynamic photo;
-  final String position;
+  final String? photo;
+  final String? position;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -44,15 +44,11 @@ class User {
     required this.name,
     required this.email,
     required this.role,
-    required this.photo,
-    required this.position,
+    this.photo,
+    this.position,
     required this.createdAt,
     required this.updatedAt,
   });
-
-  factory User.fromJson(String str) => User.fromMap(json.decode(str));
-
-  String toJson() => json.encode(toMap());
 
   factory User.fromMap(Map<String, dynamic> json) => User(
     id: json["id"],
@@ -65,6 +61,7 @@ class User {
     updatedAt: DateTime.parse(json["updated_at"]),
   );
 
+  // ✅ Tambahin ini supaya user.toMap() nggak error
   Map<String, dynamic> toMap() => {
     "id": id,
     "name": name,
@@ -76,3 +73,6 @@ class User {
     "updated_at": updatedAt.toIso8601String(),
   };
 }
+
+
+

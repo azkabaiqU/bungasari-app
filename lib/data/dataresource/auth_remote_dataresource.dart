@@ -10,7 +10,7 @@ class AuthRemoteDataresource{
   // Login
   Future<Either<String, AuthResponseModel>> login(String email, String password) async{
     final response = await http.post(
-      Uri.parse('http://192.168.1.47:8000/api/login'),
+      Uri.parse('http://192.168.236.116:8000/api/login'),
       headers: {
         'Content-Type' : 'application/json',
         'Accept' : 'application/json'
@@ -20,7 +20,12 @@ class AuthRemoteDataresource{
         'password' : password,
     }),
     );
-    if(response.statusCode == 200){
+
+    print('Status Code: ${response.statusCode}');
+    print('Response Body: ${response.body}');
+
+
+    if(response.statusCode == 200 || response.statusCode == 201){
         return Right(AuthResponseModel.fromJson(response.body));
     }else{
       return left(response.body);
@@ -32,7 +37,7 @@ class AuthRemoteDataresource{
     final authData = await AuthLocalDataresource().getAuthData();
 
     final response = await http.post(
-      Uri.parse('http://192.168.1.47:8000/api/logout'),
+      Uri.parse('http://192.168.236.116:8000/api/logout'),
       headers: <String, String>{
         'Content-Type' : 'application/json',
         'Accept': 'application/json',
@@ -41,6 +46,7 @@ class AuthRemoteDataresource{
     );
 
     if(response.statusCode == 200){
+      AuthLocalDataresource().removeAuthData();
       return Right(response.body);
     }else{
       return left(response.body);
@@ -48,4 +54,35 @@ class AuthRemoteDataresource{
 
 
   }
+
+  // Register
+
+  Future<Either<String, AuthResponseModel>> register({
+    required String name,
+    required String email,
+    required String password,
+  }) async {
+    final response = await http.post(
+      Uri.parse('http://192.168.236.116:8000/api/register'),
+      headers: {
+        'Accept': 'application/json',
+      },
+      body: {
+        'name': name,
+        'email': email,
+        'password': password,
+        'password_confirmation': password,
+      },
+    );
+
+    print('Status Code: ${response.statusCode}');
+    print('Response Body: ${response.body}');
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return Right(AuthResponseModel.fromJson(response.body));
+    } else {
+      return Left('Gagal register: ${response.body}');
+    }
+  }
+
 }

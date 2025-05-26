@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:bungasari_app/data/model/response/auth_response_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../model/response/company_response_dataresource.dart';
 
 class AuthLocalDataresource {
 
@@ -8,6 +12,14 @@ class AuthLocalDataresource {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('auth_data', authResponseModel.toJson());
   }
+
+//   save company data
+  Future<void> saveCompanyData(CompanyResponseModel companyData) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('company', jsonEncode(companyData.toJson()));
+  }
+
+
 
 // remove auth data
   Future<void> removeAuthData() async{
@@ -20,6 +32,13 @@ class AuthLocalDataresource {
     final prefs = await SharedPreferences.getInstance();
     final authDataUser = prefs.getString('auth_data');
     return AuthResponseModel.fromJson(authDataUser!);
+  }
+
+// is auth data exist
+  Future<bool> isAuthData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final authDataUser = prefs.getString('auth_data');
+    return authDataUser != null;
   }
 
 }

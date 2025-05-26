@@ -1,21 +1,22 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:bungasari_app/presentation/auth/widgets/auth_button.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:bungasari_app/data/dataresource/auth_local_dataresource.dart';
 import 'package:bungasari_app/presentation/auth/widgets/register_form.dart';
-import 'package:bungasari_app/presentation/connector.dart';
 import 'package:bungasari_app/presentation/form/widgets/alert.dart';
 import 'package:bungasari_app/presentation/form/widgets/company_field.dart';
 import 'package:bungasari_app/presentation/form/widgets/company_uploader.dart';
 import 'package:bungasari_app/presentation/form/widgets/next_button.dart';
-import 'package:bungasari_app/presentation/form/widgets/pop_up.dart';
 import 'package:bungasari_app/presentation/form/widgets/previous_button.dart';
-import 'package:flutter/material.dart';
-import 'package:bungasari_app/preference/preference.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:io';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:bungasari_app/presentation/profile/pages/profile_page.dart';
-import '../../../styles/text_style.dart';
-import '../../../preference/input_widget.dart';
 
-import '../../home/page/home_page.dart';
+import '../../../preference/color.dart';
+import '../../../styles/text_style.dart';
+import '../blocs/company_bloc.dart';
 
 class FormPage extends StatefulWidget {
   @override
@@ -26,11 +27,20 @@ class _FormPageState extends State<FormPage> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
+  // Controllers
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final addressController = TextEditingController();
+  final phoneController = TextEditingController();
+  final businessTypeController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final notesController = TextEditingController();
+  final logoFile = ValueNotifier<File?>(null);
+  final attachmentFile = ValueNotifier<File?>(null);
+
   void _nextPage() {
     if (_currentPage < 2) {
-      setState(() {
-        _currentPage++;
-      });
+      setState(() => _currentPage++);
       _pageController.animateToPage(
         _currentPage,
         duration: Duration(milliseconds: 300),
@@ -41,9 +51,7 @@ class _FormPageState extends State<FormPage> {
 
   void _previousPage() {
     if (_currentPage > 0) {
-      setState(() {
-        _currentPage--;
-      });
+      setState(() => _currentPage--);
       _pageController.animateToPage(
         _currentPage,
         duration: Duration(milliseconds: 300),
@@ -54,6 +62,12 @@ class _FormPageState extends State<FormPage> {
 
   @override
   Widget build(BuildContext context) {
+    List<String> partTitles = [
+      "Informasi Perusahaan",
+      "Ceritakan tentang Perusahaan Anda",
+      "Informasi Tambahan"
+    ];
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -62,9 +76,7 @@ class _FormPageState extends State<FormPage> {
             left: 18,
             top: 15,
             child: GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-              },
+              onTap: () => Navigator.pop(context),
               child: Row(
                 children: [
                   Container(
@@ -72,10 +84,7 @@ class _FormPageState extends State<FormPage> {
                     height: 28,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      border: Border.all(
-                        color: AppColor.bgBtnBack,
-                        width: 1,
-                      ),
+                      border: Border.all(color: AppColor.bgBtnBack, width: 1),
                     ),
                     child:
                         Icon(Icons.arrow_back, color: Colors.black, size: 15),
@@ -97,19 +106,13 @@ class _FormPageState extends State<FormPage> {
             top: 94,
             child: Column(
               children: [
+                // Step bar
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: List.generate(3, (index) {
                     double screenWidth = MediaQuery.of(context).size.width;
-                    List<String> partTitles = [
-                      "Informasi Perusahaan",
-                      "Ceritakan tentang Perusahaan Anda",
-                      "Informasi Tambahan"
-                    ];
-
                     return Column(
-                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 5),
@@ -117,14 +120,9 @@ class _FormPageState extends State<FormPage> {
                           height: 4,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(3),
-                            gradient: LinearGradient(
-                              colors: _currentPage == index
-                                  ? [AppColor.bgBtnBlack, AppColor.bgBtnBlack]
-                                  : [
-                                      AppColor.bgGrayFrBar,
-                                      AppColor.bgGrayFrBar
-                                    ],
-                            ),
+                            color: _currentPage == index
+                                ? AppColor.bgBtnBlack
+                                : AppColor.bgGrayFrBar,
                           ),
                         ),
                         SizedBox(height: 6),
@@ -152,16 +150,43 @@ class _FormPageState extends State<FormPage> {
                 SizedBox(height: 20),
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.only(right: 28, left: 28),
+                    padding: const EdgeInsets.symmetric(horizontal: 28),
                     child: PageView(
                       controller: _pageController,
                       physics: NeverScrollableScrollPhysics(),
                       children: [
-                        PartOne(onNext: _nextPage),
-                        PartTwo(onNext: _nextPage, onPrevious: _previousPage),
+                        PartOne(
+                          onNext: _nextPage,
+                          nameController: nameController,
+                          addressController: addressController,
+                          emailController: emailController,
+                          phoneController: phoneController,
+                        ),
+                        PartTwo(
+                          onNext: _nextPage,
+                          onPrevious: _previousPage,
+                          logoFile: logoFile,
+                          businessTypeController: businessTypeController,
+                          descriptionController: descriptionController,
+                        ),
                         PartThree(
-                            onNext: () => ProfilePage,
-                            onPrevious: _previousPage),
+                          onNext: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (_) => ProfilePage()),
+                            );
+                          },
+                          onPrevious: _previousPage,
+                          notesController: notesController,
+                          attachmentFile: attachmentFile,
+                          nameController: nameController,
+                          emailController: emailController,
+                          addressController: addressController,
+                          businessTypeController: businessTypeController,
+                          descriptionController: descriptionController, // Pastikan ini dikirim
+                          phoneController: phoneController,
+                          logoFile: logoFile,
+                        ),
                       ],
                     ),
                   ),
@@ -175,14 +200,21 @@ class _FormPageState extends State<FormPage> {
   }
 }
 
+// ====================== PART ONE ======================
 class PartOne extends StatelessWidget {
   final VoidCallback onNext;
-  PartOne({required this.onNext});
+  final TextEditingController nameController;
+  final TextEditingController addressController;
+  final TextEditingController emailController;
+  final TextEditingController phoneController;
 
-  final nameController = TextEditingController();
-  final addressController = TextEditingController();
-  final emailController = TextEditingController();
-  final phoneController = TextEditingController();
+  PartOne({
+    required this.onNext,
+    required this.nameController,
+    required this.addressController,
+    required this.emailController,
+    required this.phoneController,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -191,45 +223,34 @@ class PartOne extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 44),
-          // Number 1 ---------------------------(======= 1.1 Nama Perusahaan ========)
           RegisterForm(
             title: 'Nama Perusahaan',
             hintText: 'Nama Perusahaan Anda',
             controller: nameController,
           ),
           SizedBox(height: 25),
-
-          // Number 2 ---------------------------(======= 1.2 Alamat ========)
           RegisterForm(
             title: 'Alamat Perusahaan',
             hintText: 'Jl. Contoh No. 123, Kota, Provinsi',
             controller: addressController,
           ),
           SizedBox(height: 25),
-
-          // Number 3 ---------------------------(======= 1.3 Email ========)
           RegisterForm(
             title: 'Email Perusahaan',
             hintText: 'example@gmail.com',
             controller: emailController,
           ),
           SizedBox(height: 7),
-
-          //  ---------------------------(======= !!!!! ALERT ========)
           Alert(
-            message:
-                'Pastikan Email Anda aktif dan dapat diakses. Semua notifikasi dan konfirmasi akan dikirim ke email ini',
+            message: 'Pastikan Email Anda aktif dan dapat diakses.',
           ),
           SizedBox(height: 25),
-
-          // Number 4 ---------------------------(======= 1.4 Nomor Telepon ========)
           RegisterForm(
             title: 'Nomor Telepon',
             hintText: '08XX-XXXX-XXXX',
             controller: phoneController,
           ),
           SizedBox(height: 25),
-
           NextButton(title: 'Selanjutnya', onPressed: onNext),
         ],
       ),
@@ -237,15 +258,21 @@ class PartOne extends StatelessWidget {
   }
 }
 
+// ====================== PART TWO ======================
 class PartTwo extends StatefulWidget {
   final VoidCallback onNext;
   final VoidCallback onPrevious;
+  final ValueNotifier<File?> logoFile;
+  final TextEditingController businessTypeController;
+  final TextEditingController descriptionController;
 
-  final logoPathController = TextEditingController();
-  final businessTypeController = TextEditingController();
-  final descriptionController = TextEditingController();
-  PartTwo({Key? key, required this.onNext, required this.onPrevious})
-      : super(key: key);
+  PartTwo({
+    required this.onNext,
+    required this.onPrevious,
+    required this.logoFile,
+    required this.businessTypeController,
+    required this.descriptionController,
+  });
 
   @override
   _PartTwoState createState() => _PartTwoState();
@@ -254,58 +281,31 @@ class PartTwo extends StatefulWidget {
 class _PartTwoState extends State<PartTwo> {
   File? _selectedImage;
   String? _fileName;
-  final TextEditingController _controller = TextEditingController();
-  final int _maxLength = 250;
+  final _maxLength = 250;
   bool _isOverLimit = false;
 
-  String _truncateFileName(String name, int maxLength) {
-    if (name.length > maxLength) {
-      List<String> parts = name.split('.');
-      String ext = parts.length > 1 ? ".${parts.last}" : "";
-      String truncated = name.substring(0, maxLength - ext.length) + "...";
-      return truncated + ext;
-    }
-    return name;
-  }
-
-  Future<void> _pickImageFromGallery() async {
-    try {
-      final returnedImage =
-          await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (returnedImage == null) return;
-
+  Future<void> _pickImage() async {
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (image != null) {
       setState(() {
-        _selectedImage = File(returnedImage.path);
-        _fileName = returnedImage.name;
+        _selectedImage = File(image.path);
+        widget.logoFile.value = _selectedImage;
+        _fileName = image.name;
       });
-    } catch (e) {}
-  }
-
-  void _onTextChanged(String value) {
-    setState(() {
-      if (value.length > _maxLength) {
-        _isOverLimit = true;
-        _controller.text = value.substring(0, _maxLength);
-        _controller.selection = TextSelection.fromPosition(
-          TextPosition(offset: _controller.text.length),
-        );
-      } else {
-        _isOverLimit = false;
-      }
-    });
+    }
   }
 
   void _removeImage() {
     setState(() {
       _selectedImage = null;
       _fileName = null;
+      widget.logoFile.value = null;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: SingleChildScrollView(
+    return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -314,170 +314,201 @@ class _PartTwoState extends State<PartTwo> {
             title: 'Logo Perusahaan',
             fileName: _fileName,
             selectedImage: _selectedImage,
-            onPickImage: _pickImageFromGallery,
+            onPickImage: _pickImage,
             onRemoveImage: _removeImage,
-            truncateFileName: _truncateFileName,
+            truncateFileName: (name, len) =>
+            name.length > len ? name.substring(0, len) + "..." : name,
           ),
           SizedBox(height: 25),
           RegisterForm(
             title: 'Jenis Usaha',
             hintText: 'Masukkan Kategori Bisnis Anda',
-            controller: TextEditingController(),
+            controller: widget.businessTypeController,
           ),
           SizedBox(height: 25),
           CompanyField(
-            title: 'Jenis Usaha',
-            hintText:
-                'Ceritakan secara singkat tentang perusahaan Anda, produk yang Anda buat, dan pengalaman dalam industri ini.',
-            controller: _controller,
-            isOverLimit: _isOverLimit,
+            title: 'Deskripsi Usaha',
+            hintText: 'Jelaskan produk dan pengalaman perusahaan Anda.',
+            controller: widget.descriptionController,
             maxLength: _maxLength,
-            onTextChanged: _onTextChanged,
+            isOverLimit: _isOverLimit,
+            onTextChanged: (value) {
+              setState(() {
+                _isOverLimit = value.length > _maxLength;
+                if (_isOverLimit) {
+                  widget.descriptionController.text = value.substring(0, _maxLength);
+                  widget.descriptionController.selection =
+                      TextSelection.collapsed(offset: _maxLength);
+                }
+              });
+            },
           ),
           SizedBox(height: 7),
-          Alert(
-            message:
-                'Deskripsi harus minimal 50 kata agar PT. Bunga Sari dapat memahami bisnis Anda dengan lebih baik.',
-          ),
+          Alert(message: 'Deskripsi harus minimal 50 kata.'),
           SizedBox(height: 25),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              PreviousButton(title: 'Kembali', onPressed: widget.onPrevious),
-              SizedBox(width: 10), // Spasi antar tombol
+              PreviousButton(title: 'Sebelumnya', onPressed: widget.onPrevious),
               NextButton(title: 'Selanjutnya', onPressed: widget.onNext),
             ],
           ),
-          SizedBox(height: 50),
         ],
       ),
-    ));
+    );
   }
 }
 
+// ====================== PART THREE ======================
 class PartThree extends StatefulWidget {
   final VoidCallback onNext;
   final VoidCallback onPrevious;
-  final notesController = TextEditingController();
-  final attachmentPathController = TextEditingController();
+  final TextEditingController notesController;
+  final ValueNotifier<File?> attachmentFile;
+  final TextEditingController nameController;
+  final TextEditingController emailController;
+  final TextEditingController addressController;
+  final TextEditingController businessTypeController;
+  final TextEditingController descriptionController; // Pastikan ini ada
+  final TextEditingController phoneController;
+  final ValueNotifier<File?> logoFile;
 
-  PartThree({Key? key, required this.onNext, required this.onPrevious})
-      : super(key: key);
+  PartThree({
+    required this.onNext,
+    required this.onPrevious,
+    required this.notesController,
+    required this.attachmentFile,
+    required this.nameController,
+    required this.emailController,
+    required this.addressController,
+    required this.businessTypeController,
+    required this.descriptionController, // Pastikan ini ada
+    required this.phoneController,
+    required this.logoFile,
+  });
 
   @override
   _PartThreeState createState() => _PartThreeState();
 }
 
 class _PartThreeState extends State<PartThree> {
-  File? _selectedImage;
+  File? _selectedFile;
   String? _fileName;
-  final TextEditingController _controller = TextEditingController();
-  final int _maxLength = 250;
-  bool _isOverLimit = false;
 
-  String _truncateFileName(String name, int maxLength) {
-    if (name.length > maxLength) {
-      List<String> parts = name.split('.');
-      String ext = parts.length > 1 ? ".${parts.last}" : "";
-      String truncated = name.substring(0, maxLength - ext.length) + "...";
-      return truncated + ext;
-    }
-    return name;
-  }
-
-  Future<void> _pickImageFromGallery() async {
-    try {
-      final returnedImage =
-          await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (returnedImage == null) return;
-
+  Future<void> _pickFile() async {
+    final result = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (result != null) {
       setState(() {
-        _selectedImage = File(returnedImage.path);
-        _fileName = returnedImage.name;
+        _selectedFile = File(result.path);
+        widget.attachmentFile.value = _selectedFile;
+        _fileName = result.name;
       });
-    } catch (e) {
-      // Handle error jika perlu
     }
   }
 
-  void _onTextChanged(String value) {
+  void _removeFile() {
     setState(() {
-      if (value.length > _maxLength) {
-        _isOverLimit = true;
-        _controller.text = value.substring(0, _maxLength);
-        _controller.selection = TextSelection.fromPosition(
-          TextPosition(offset: _controller.text.length),
-        );
-      } else {
-        _isOverLimit = false;
-      }
-    });
-  }
-
-  void _removeImage() {
-    setState(() {
-      _selectedImage = null;
+      _selectedFile = null;
+      widget.attachmentFile.value = null;
       _fileName = null;
     });
   }
 
+  String truncateFileName(String name, int maxLength) {
+    return name.length > maxLength
+        ? '${name.substring(0, maxLength)}...'
+        : name;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 44),
-            CompanyField(
-              title: 'Catatan Tambahan',
-              hintText:
-                  'Tulis informasi tambahan yang perlu kami ketahui tentang pengajuan Anda (opsional)',
-              controller: _controller,
-              isOverLimit: _isOverLimit,
-              maxLength: _maxLength,
-              onTextChanged: _onTextChanged,
-            ),
-            SizedBox(height: 25),
-            CompanyUploader(
-              title: 'Lampiran Perusahaan',
-              fileName: _fileName,
-              selectedImage: _selectedImage,
-              onPickImage: _pickImageFromGallery,
-              onRemoveImage: _removeImage,
-              truncateFileName: _truncateFileName,
-            ),
-            SizedBox(height: 7),
-            Alert(
-              message:
-                  'Anda dapat mengubah dokumen legalitass seperti SIUP, NIB, atau TDP untuk mempercepat proses verifikasi (opsional).',
-            ),
-            SizedBox(height: 25),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                PreviousButton(title: 'Kembali', onPressed: widget.onPrevious),
-                SizedBox(width: 10), // Spasi antar tombol
-                NextButton(
-                    title: 'Kirim',
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        barrierDismissible:
-                            true, // Mengizinkan menutup dialog dengan mengetuk area di luar
-                        builder: (BuildContext context) {
-                          return PopUp();
-                        },
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 44),
+          RegisterForm(
+            title: 'Catatan Tambahan',
+            hintText: 'Tambahkan hal lain yang perlu diketahui',
+            controller: widget.notesController,
+          ),
+          SizedBox(height: 25),
+          CompanyUploader(
+            title: 'Lampiran (Opsional)',
+            fileName: _fileName,
+            selectedImage: _selectedFile,
+            onPickImage: _pickFile,
+            onRemoveImage: _removeFile,
+            truncateFileName: truncateFileName,
+          ),
+          SizedBox(height: 7),
+          Alert(
+            message:
+            'Anda dapat mengubah dokumen legalitas seperti SIUP, NIB, atau TDP untuk mempercepat proses verifikasi (opsional).',
+          ),
+          SizedBox(height: 25,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              PreviousButton(title: 'Sebelumnya', onPressed: widget.onPrevious),
+              SizedBox(width: 10,),
+              BlocConsumer<CompanyBloc, CompanyState>(
+                listener: (context, state) {
+                  if (state is CompanySuccess) {
+                    AuthLocalDataresource().saveCompanyData(state.companyResponseModel);
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ProfilePage(),
+                      ),
+                    );
+                  }
+                  if (state is CompanyFailure) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(state.message)),
+                    );
+                  }
+                },
+                builder: (context, state) {
+                  if (state is CompanyLoading) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  return NextButton(onPressed: () {
+                    // Validasi input
+                    if (widget.nameController.text.isEmpty ||
+                        widget.emailController.text.isEmpty ||
+                        widget.addressController.text.isEmpty ||
+                        widget.phoneController.text.isEmpty ||
+                        widget.businessTypeController.text.isEmpty ||
+                        widget.descriptionController.text.isEmpty ||
+                        widget.notesController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Semua field harus diisi!')),
                       );
-                    }),
-              ],
-            ),
-            SizedBox(height: 50),
-          ],
-        ),
+                      return; // Hentikan eksekusi jika ada field yang kosong
+                    }
+
+                    context.read<CompanyBloc>().add(
+                        CompanyButtonPressed(
+                          name: widget.nameController.text,
+                          email: widget.emailController.text,
+                          address: widget.addressController.text,
+                          phone: widget.phoneController.text,
+                          businessType: widget.businessTypeController.text,
+                          description: widget.descriptionController.text,
+                          notes: widget.notesController.text,
+                          logo: widget.logoFile.value != null ? widget.logoFile.value!.path : '',
+                          attachment: widget.attachmentFile.value != null ? widget.attachmentFile.value!.path : '',
+                        ));
+                  }, title: 'Kirim');
+                },
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
 }
-
-

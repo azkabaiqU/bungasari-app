@@ -1,5 +1,7 @@
-import 'package:bungasari_app/presentation/home/blocs/logout/logout_bloc.dart';
+import 'package:bungasari_app/core/core.dart';
+import 'package:bungasari_app/presentation/profile/blocs/logout/logout_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:bungasari_app/presentation/auth/pages/login_page.dart';
 import 'package:bungasari_app/preference/preference.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../styles/text_style.dart';
@@ -313,10 +315,20 @@ class ProfilePage extends StatelessWidget {
                 BlocConsumer<LogoutBloc, LogoutState>(
                   listener: (context, state) {
                     if(state is LogoutSuccess){
-
+                      context.pushAndRemoveUntil(const LoginPage(), (route) => false);
+                    }
+                    if(state is LogoutFailure){
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(state.message),),
+                      );
                     }
                   },
                   builder: (context, state) {
+                    if(state is LogoutLoading){
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
                     return TextButton(
                       onPressed: () {
                         context.read<LogoutBloc>().add(LogoutButtonPrassed());

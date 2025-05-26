@@ -1,47 +1,12 @@
-// part of 'register_bloc.dart';
-import 'package:equatable/equatable.dart';
+part of 'register_bloc.dart';
 
-abstract class RegisterEvent extends Equatable {
-  const RegisterEvent();
+@immutable
+sealed class RegisterEvent {}
 
-  @override
-  List<Object?> get props => [];
-}
-
-class NameChanged extends RegisterEvent {
+class RegisterButtonPressed extends RegisterEvent{
   final String name;
-
-  const NameChanged(this.name);
-
-  @override
-  List<Object?> get props => [name];
-}
-
-class EmailChanged extends RegisterEvent {
   final String email;
-
-  const EmailChanged(this.email);
-
-  @override
-  List<Object?> get props => [email];
-}
-
-class PasswordChanged extends RegisterEvent {
   final String password;
 
-  const PasswordChanged(this.password);
-
-  @override
-  List<Object?> get props => [password];
+  RegisterButtonPressed({required this.name, required this.email, required this.password});
 }
-
-class ConfirmPasswordChanged extends RegisterEvent {
-  final String confirmPassword;
-
-  const ConfirmPasswordChanged(this.confirmPassword);
-
-  @override
-  List<Object?> get props => [confirmPassword];
-}
-
-class RegisterSubmitted extends RegisterEvent {}
