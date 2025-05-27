@@ -18,7 +18,7 @@ class LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isPasswordField = hintText.contains('Password');
+    final isPasswordField = hintText.toLowerCase().contains('Password');
 
     return Container(
       decoration: BoxDecoration(
