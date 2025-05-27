@@ -10,7 +10,7 @@ class AuthRemoteDataresource{
   // Login
   Future<Either<String, AuthResponseModel>> login(String email, String password) async{
     final response = await http.post(
-      Uri.parse('http://192.168.236.116:8000/api/login'),
+      Uri.parse('http://192.168.1.72:8000/api/login'),
       headers: {
         'Content-Type' : 'application/json',
         'Accept' : 'application/json'
@@ -37,7 +37,7 @@ class AuthRemoteDataresource{
     final authData = await AuthLocalDataresource().getAuthData();
 
     final response = await http.post(
-      Uri.parse('http://192.168.236.116:8000/api/logout'),
+      Uri.parse('http://192.168.1.72:8000/api/logout'),
       headers: <String, String>{
         'Content-Type' : 'application/json',
         'Accept': 'application/json',
@@ -63,7 +63,7 @@ class AuthRemoteDataresource{
     required String password,
   }) async {
     final response = await http.post(
-      Uri.parse('http://192.168.236.116:8000/api/register'),
+      Uri.parse('http://192.168.1.72:8000/api/register'),
       headers: {
         'Accept': 'application/json',
       },

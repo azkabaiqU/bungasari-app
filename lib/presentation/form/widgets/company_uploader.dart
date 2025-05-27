@@ -3,6 +3,7 @@ import 'package:dotted_border/dotted_border.dart';
 
 class CompanyUploader extends StatelessWidget {
   final String title;
+  final TextEditingController controller; // Controller untuk nama file
   final String? fileName;
   final dynamic selectedImage; // Bisa berupa File, Uint8List, dsb.
   final VoidCallback onPickImage;
@@ -12,6 +13,7 @@ class CompanyUploader extends StatelessWidget {
   const CompanyUploader({
     super.key,
     required this.title,
+    required this.controller,
     required this.fileName,
     required this.selectedImage,
     required this.onPickImage,
@@ -24,6 +26,7 @@ class CompanyUploader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // Judul bagian upload
         Text(
           title,
           style: TextStyle(
@@ -32,9 +35,25 @@ class CompanyUploader extends StatelessWidget {
             color: Colors.grey[800],
           ),
         ),
+
+        const SizedBox(height: 8),
+
+        // TextFormField buat nampilin nama file
+        TextFormField(
+          controller: controller,
+          readOnly: true,
+          decoration: InputDecoration(
+            hintText: 'Nama file akan muncul di sini',
+            border: OutlineInputBorder(),
+            contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          ),
+        ),
+
         const SizedBox(height: 7),
+
         Column(
           children: [
+            // Jika belum pilih file
             if (selectedImage == null)
               DottedBorder(
                 color: Colors.black,
@@ -42,10 +61,15 @@ class CompanyUploader extends StatelessWidget {
                 dashPattern: [10, 10],
                 borderType: BorderType.RRect,
                 radius: Radius.circular(7),
-                child: SizedBox( // ✅ Tambahkan ini
+                child: SizedBox(
                   width: double.infinity,
                   child: MaterialButton(
-                    onPressed: onPickImage,
+                    onPressed: () {
+                      onPickImage();
+                      if (fileName != null) {
+                        controller.text = fileName!;
+                      }
+                    },
                     padding: EdgeInsets.zero,
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 30),
@@ -70,6 +94,8 @@ class CompanyUploader extends StatelessWidget {
                   ),
                 ),
               ),
+
+            // Jika file sudah dipilih
             if (fileName != null)
               DottedBorder(
                 color: Colors.black,
@@ -77,7 +103,7 @@ class CompanyUploader extends StatelessWidget {
                 dashPattern: [10, 10],
                 borderType: BorderType.RRect,
                 radius: Radius.circular(7),
-                child: SizedBox( // ✅ Tambahkan ini juga
+                child: SizedBox(
                   width: double.infinity,
                   child: MaterialButton(
                     onPressed: onPickImage,
@@ -102,7 +128,10 @@ class CompanyUploader extends StatelessWidget {
                             ),
                           ),
                           GestureDetector(
-                            onTap: onRemoveImage,
+                            onTap: () {
+                              onRemoveImage();
+                              controller.clear(); // reset controller juga
+                            },
                             child: const Icon(Icons.close),
                           ),
                         ],
@@ -116,4 +145,5 @@ class CompanyUploader extends StatelessWidget {
       ],
     );
   }
+
 }

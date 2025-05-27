@@ -12,7 +12,7 @@ class CompanyRemoteDataresource{
     final authData = await AuthLocalDataresource().getAuthData();
 
     final response = await http.post(
-      Uri.parse('http://192.168.236.116:8000/api/create-company'),
+      Uri.parse('http://192.168.1.72:8000/api/create-company'),
       headers: {
         'Content-Type' : 'application/json',
         'Accept' : 'application/json',

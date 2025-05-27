@@ -13,11 +13,6 @@ class AuthLocalDataresource {
     await prefs.setString('auth_data', authResponseModel.toJson());
   }
 
-//   save company data
-  Future<void> saveCompanyData(CompanyResponseModel companyData) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('company', jsonEncode(companyData.toJson()));
-  }
 
 
 
