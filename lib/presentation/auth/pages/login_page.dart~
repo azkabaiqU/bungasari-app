@@ -113,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                       height: 14,
                     ),
                     LoginForm(
-                      hintText: 'Email Address',
+                      hintText: 'Email ',
                       controller: usernameController,
                       keyboardType:  TextInputType.text,
                       borderRadius: BorderRadius.only(
