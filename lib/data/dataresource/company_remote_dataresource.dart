@@ -12,7 +12,7 @@ class CompanyRemoteDataresource{
     final authData = await AuthLocalDataresource().getAuthData();
 
     final response = await http.post(
-      Uri.parse('http://192.168.1.72:8000/api/create-company'),
+      Uri.parse('http://192.168.5.116:8000/api/create-company'),
       headers: {
         'Content-Type' : 'application/json',
         'Accept' : 'application/json',
@@ -41,4 +41,28 @@ class CompanyRemoteDataresource{
       return left(response.body);
     }
   }
+
+
+  Future<Either<String, CompanyResponseModel>> index(String name, String address, String email, String phone, String logo, String businessType, String description, String notes, String attachment) async{
+    final authData = await AuthLocalDataresource().getAuthData();
+
+    final response = await http.get(
+        Uri.parse('http://192.168.5.116:8000/api/index-company'),
+        headers: {
+          'Content-Type' : 'application/json',
+          'Accept' : 'application/json',
+          'Authorization' : 'Bearer ${authData.accessToken}'
+        },
+    );
+    print('Status Code: ${response.statusCode}');
+
+
+    if(response.statusCode == 200 || response.statusCode == 201){
+      return Right(CompanyResponseModel.fromJson(response.body));
+    }else{
+      return left(response.body);
+    }
+
+    }
+
 }

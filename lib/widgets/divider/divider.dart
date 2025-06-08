@@ -7,7 +7,7 @@ class CustomDivider extends StatelessWidget {
   final double height;
 
   const CustomDivider({
-    this.color =  AppColor.textGrayV2, // default abu-abu
+    this.color = AppColor.textGrayV2,
     this.thickness = 0.5,
     this.height = 20,
     super.key,
@@ -15,12 +15,10 @@ class CustomDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Divider(
-        color: color,
-        thickness: thickness,
-        height: height,
-      ),
+    return Divider(
+      color: color,
+      thickness: thickness,
+      height: height,
     );
   }
 }

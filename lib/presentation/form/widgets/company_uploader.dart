@@ -1,11 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
 
 class CompanyUploader extends StatelessWidget {
   final String title;
-  final TextEditingController controller; // Controller untuk nama file
+  final ValueNotifier<File?> valueNotifier; // Ubah di sini
   final String? fileName;
-  final dynamic selectedImage; // Bisa berupa File, Uint8List, dsb.
+  final TextEditingController controller;
+  final dynamic selectedImage;
   final VoidCallback onPickImage;
   final VoidCallback onRemoveImage;
   final String Function(String, int) truncateFileName;
@@ -13,8 +16,9 @@ class CompanyUploader extends StatelessWidget {
   const CompanyUploader({
     super.key,
     required this.title,
-    required this.controller,
+    required this.valueNotifier, // Ubah di sini
     required this.fileName,
+    required this.controller,
     required this.selectedImage,
     required this.onPickImage,
     required this.onRemoveImage,
@@ -23,127 +27,86 @@ class CompanyUploader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final hasFile = fileName != null && selectedImage != null;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Judul bagian upload
         Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16,
             fontFamily: "SfPro",
-            color: Colors.grey[800],
+            color: Colors.black87,
           ),
         ),
-
         const SizedBox(height: 8),
-
-        // TextFormField buat nampilin nama file
         TextFormField(
-          controller: controller,
+          controller: controller, // Ubah di sini
           readOnly: true,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             hintText: 'Nama file akan muncul di sini',
             border: OutlineInputBorder(),
             contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           ),
         ),
-
         const SizedBox(height: 7),
-
-        Column(
-          children: [
-            // Jika belum pilih file
-            if (selectedImage == null)
-              DottedBorder(
-                color: Colors.black,
-                strokeWidth: 0.5,
-                dashPattern: [10, 10],
-                borderType: BorderType.RRect,
-                radius: Radius.circular(7),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: MaterialButton(
-                    onPressed: () {
-                      onPickImage();
-                      if (fileName != null) {
-                        controller.text = fileName!;
-                      }
-                    },
-                    padding: EdgeInsets.zero,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 30),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[300],
-                        borderRadius: BorderRadius.circular(7),
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: const [
-                          Icon(Icons.cloud_upload_outlined, size: 32),
-                          SizedBox(height: 8),
-                          Text(
-                            'Upload Your\n Document Here',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ],
+        DottedBorder(
+          color: Colors.black,
+          strokeWidth: 0.5,
+          dashPattern: [10, 10],
+          borderType: BorderType.RRect,
+          radius: const Radius.circular(7),
+          child: SizedBox(
+            width: double.infinity,
+            child: MaterialButton(
+              onPressed: () {
+                onPickImage();
+              },
+              padding: EdgeInsets.zero,
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(7),
+                ),
+                child: hasFile
+                    ? Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        truncateFileName(fileName!, 30),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                  ),
-                ),
-              ),
-
-            // Jika file sudah dipilih
-            if (fileName != null)
-              DottedBorder(
-                color: Colors.black,
-                strokeWidth: 0.5,
-                dashPattern: [10, 10],
-                borderType: BorderType.RRect,
-                radius: Radius.circular(7),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: MaterialButton(
-                    onPressed: onPickImage,
-                    padding: EdgeInsets.zero,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 10,
-                        horizontal: 20,
-                      ),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[300],
-                        borderRadius: BorderRadius.circular(7),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              truncateFileName(fileName!, 30),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              onRemoveImage();
-                              controller.clear(); // reset controller juga
-                            },
-                            child: const Icon(Icons.close),
-                          ),
-                        ],
-                      ),
+                    GestureDetector(
+                      onTap: () {
+                        onRemoveImage();
+                        valueNotifier.value = null; // Clear ValueNotifier
+                      },
+                      child: const Icon(Icons.close),
                     ),
-                  ),
+                  ],
+                )
+                    : Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: const [
+                    Icon(Icons.cloud_upload_outlined, size: 32),
+                    SizedBox(height: 8),
+                    Text(
+                      'Upload Your\n Document Here',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  ],
                 ),
               ),
-          ],
+            ),
+          ),
         ),
       ],
     );
   }
-
 }

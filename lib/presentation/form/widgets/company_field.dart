@@ -1,6 +1,5 @@
 import 'package:bungasari_app/preference/color.dart';
 import 'package:bungasari_app/styles/text_style.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CompanyField extends StatelessWidget {
@@ -21,8 +20,16 @@ class CompanyField extends StatelessWidget {
     required this.onTextChanged,
   }) : super(key: key);
 
+  int _getWordCount(String text) {
+    return text.trim().isEmpty
+        ? 0
+        : text.trim().split(RegExp(r'\s+')).length;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final wordCount = _getWordCount(controller.text);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -57,8 +64,6 @@ class CompanyField extends StatelessWidget {
                   onChanged: onTextChanged,
                   decoration: InputDecoration(
                     border: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
                     hintText: hintText,
                     hintStyle: AppTextStyles.TextfrHint,
                   ),
@@ -66,7 +71,7 @@ class CompanyField extends StatelessWidget {
               ),
               SizedBox(height: 8),
               Text(
-                "${controller.text.length} / $maxLength Kata",
+                "$wordCount / $maxLength Kata",
                 style: TextStyle(
                   color: isOverLimit ? Colors.red : AppColor.textGrayV2,
                 ),
@@ -75,18 +80,16 @@ class CompanyField extends StatelessWidget {
           ),
         ),
         if (isOverLimit)
-          const Column(
-            children: [
-              SizedBox(height: 2),
-              Text(
-                "Anda melewati batas kata.",
-                style: TextStyle(
-                  color: Colors.red,
-                  fontSize: 14,
-                  fontFamily: "SfPro",
-                ),
+          const Padding(
+            padding: EdgeInsets.only(top: 2),
+            child: Text(
+              "Anda melewati batas kata.",
+              style: TextStyle(
+                color: Colors.red,
+                fontSize: 14,
+                fontFamily: "SfPro",
               ),
-            ],
+            ),
           ),
       ],
     );

@@ -14,8 +14,6 @@ class AuthLocalDataresource {
   }
 
 
-
-
 // remove auth data
   Future<void> removeAuthData() async{
     final prefs = await SharedPreferences.getInstance();

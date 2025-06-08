@@ -2,30 +2,20 @@ import 'package:meta/meta.dart';
 import 'dart:convert';
 
 class CompanyResponseModel {
-  final String message;
-  final Data data;
+  final List<Company> data;
 
-  CompanyResponseModel({
-    required this.message,
-    required this.data,
-  });
+  CompanyResponseModel({required this.data});
 
-  factory CompanyResponseModel.fromJson(String str) => CompanyResponseModel.fromMap(json.decode(str));
+  factory CompanyResponseModel.fromJson(String str) =>
+      CompanyResponseModel.fromMap(json.decode(str));
 
-  String toJson() => json.encode(toMap());
-
-  factory CompanyResponseModel.fromMap(Map<String, dynamic> json) => CompanyResponseModel(
-    message: json["message"],
-    data: Data.fromMap(json["data"]),
-  );
-
-  Map<String, dynamic> toMap() => {
-    "message": message,
-    "data": data.toMap(),
-  };
+  factory CompanyResponseModel.fromMap(Map<String, dynamic> json) =>
+      CompanyResponseModel(
+        data: List<Company>.from(json["data"].map((x) => Company.fromMap(x))),
+      );
 }
 
-class Data {
+class Company {
   final int userId;
   final String name;
   final String address;
@@ -39,7 +29,7 @@ class Data {
   final DateTime createdAt;
   final int id;
 
-  Data({
+  Company({
     required this.userId,
     required this.name,
     required this.address,
@@ -54,11 +44,11 @@ class Data {
     required this.id,
   });
 
-  factory Data.fromJson(String str) => Data.fromMap(json.decode(str));
+  factory Company.fromJson(String str) => Company.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory Data.fromMap(Map<String, dynamic> json) => Data(
+  factory Company.fromMap(Map<String, dynamic> json) => Company(
     userId: json["user_id"],
     name: json["name"],
     address: json["address"],

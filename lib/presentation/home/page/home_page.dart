@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:bungasari_app/preference/preference.dart';
 import 'package:bungasari_app/widgets/navbar.dart';
 import '../../../styles/text_style.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
 
 
 class HomePage extends StatelessWidget {
